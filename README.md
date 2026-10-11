@@ -6,5 +6,7 @@ Bilingual (RO/EN) prototype for a licensed hunting & outdoor shop in Bistrița: 
 - `site/` — source (no build step, no dependencies). Serve it with `python3 -m http.server` from `site/` and open `index.html`.
 - `docs/plan.html` — platform recommendation, legal model, payments, AI pipeline, palettes, launch checklist.
 - `tools/bundle.py` — rebuilds the single-file version after editing `site/`.
+- `tools/smoke.js` — Playwright smoke test.
+- `CLAUDE.md` — project briefing for Claude Code.
 
 Business details to fill in are marked `TODO` in `site/js/data.js` (`STORE`).
