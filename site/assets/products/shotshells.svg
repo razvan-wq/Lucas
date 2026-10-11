@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Cartușe pentru armă cu țeavă lisă">
+  <defs>
+    <mask id="ba-k-sh">
+      <rect width="800" height="600" fill="#fff"/>
+      <path d="M340 465 L550 465 C558 465 566 473 566 500 C566 527 558 535 550 535 L340 535 Z M282 463 L342 465 L342 535 L282 537 Z M282 462 C266 462 262 538 282 538 Z" fill="#000" stroke="#000" stroke-width="10" stroke-linejoin="round"/>
+      <path d="M413 412 L413 254 C413 244 422 238 448 238 C474 238 483 244 483 254 L483 412 Z M412 410 H484 V460 H486 V470 H410 V460 H412 Z" fill="#000" stroke="#000" stroke-width="10" stroke-linejoin="round"/>
+      <g fill="none" stroke="#000" stroke-linecap="round">
+        <path d="M328 388 V252 M339 388 V252 M350 388 V252 M361 388 V252 M372 388 V252" stroke-width="1.6" stroke-opacity=".7"/>
+        <path d="M330 232 L336 240 M350 228 V238 M370 232 L364 240" stroke-width="2"/>
+        <path d="M324 444 V404" stroke-width="3"/>
+        <path d="M314 448 H386" stroke-width="1"/>
+      </g>
+    </mask>
+    <mask id="ba-k-sh2">
+      <rect width="800" height="600" fill="#fff"/>
+      <path d="M340 465 L550 465 C558 465 566 473 566 500 C566 527 558 535 550 535 L340 535 Z M282 463 L342 465 L342 535 L282 537 Z M282 462 C266 462 262 538 282 538 Z" fill="#000" stroke="#000" stroke-width="10" stroke-linejoin="round"/>
+      <g fill="none" stroke="#000" stroke-linecap="round">
+        <path d="M426 400 V264 M437 400 V264 M448 400 V264 M459 400 V264 M470 400 V264" stroke-width="1.6" stroke-opacity=".7"/>
+        <path d="M428 244 L434 252 M448 240 V250 M468 244 L462 252" stroke-width="2"/>
+        <path d="M422 456 V416" stroke-width="3"/>
+        <path d="M412 460 H484" stroke-width="1"/>
+      </g>
+    </mask>
+    <mask id="ba-k-sh3">
+      <rect width="800" height="600" fill="#fff"/>
+      <g fill="none" stroke="#000" stroke-linecap="round">
+        <path d="M352 478 H548 M352 490 H548 M352 502 H548 M352 514 H548 M352 526 H548" stroke-width="1.6" stroke-opacity=".7"/>
+        <path d="M296 472 L336 472" stroke-width="3"/>
+      </g>
+    </mask>
+  </defs>
+  <g data-norm="1" transform="translate(400 300) scale(1.15) translate(-406 -347)">
+  <g transform="translate(-12 -36)">
+    <g mask="url(#ba-k-sh)">
+      <path fill="currentColor" d="M315 400 L315 242 C315 232 324 226 350 226 C376 226 385 232 385 242 L385 400 Z"/>
+      <path fill="currentColor" fill-opacity=".45" d="M314 398 H386 V448 H388 V458 H312 V448 H314 Z"/>
+    </g>
+    <g mask="url(#ba-k-sh2)">
+      <path fill="currentColor" d="M413 412 L413 254 C413 244 422 238 448 238 C474 238 483 244 483 254 L483 412 Z"/>
+      <path fill="currentColor" fill-opacity=".45" d="M412 410 H484 V460 H486 V470 H410 V460 H412 Z"/>
+    </g>
+    <g mask="url(#ba-k-sh3)">
+      <path fill="currentColor" d="M340 465 L550 465 C558 465 566 473 566 500 C566 527 558 535 550 535 L340 535 Z"/>
+      <path fill="currentColor" fill-opacity=".45" d="M282 463 L342 465 L342 535 L282 537 Z"/>
+    </g>
+    <path fill="currentColor" fill-opacity=".6" d="M282 462 C266 462 262 538 282 538 Z"/>
+    <ellipse cx="274" cy="500" rx="3.5" ry="9" fill="currentColor"/>
+  </g>
+  </g>
+</svg>

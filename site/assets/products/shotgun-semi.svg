@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Armă semiautomată cu țeavă lisă">
+  <defs>
+    <mask id="ba-k-ss">
+      <rect width="800" height="600" fill="#fff"/>
+      <g fill="none" stroke="#000" stroke-linecap="round">
+        <!-- vent rib gaps -->
+        <path d="M392 279 h8 M412 279 h8 M432 279 h8 M452 279 h8 M472 279 h8 M492 279 h8 M512 279 h8 M532 279 h8 M552 279 h8 M572 279 h8 M592 279 h8 M612 279 h8 M632 279 h8 M652 279 h8 M672 279 h8 M692 279 h8 M712 279 h8 M732 279 h6" stroke-width="2.4" stroke-linecap="butt"/>
+        <path d="M380 287 L748 288.5" stroke-width="1.4"/>
+        <!-- receiver details -->
+        <path d="M296 302 L346 302 C350 302 352 304 352 308 L352 312" stroke-width="1.6"/>
+        <path d="M282 286 L366 286" stroke-width="1.2" stroke-opacity=".7"/>
+        <path d="M352 292 L364 292" stroke-width="3"/>
+        <!-- clear the forend region -->
+        <path d="M374 297 L556 299 C566 299 570 306 568 314 C566 320 560 322 552 322 L374 326 Z" fill="#000" stroke="#000" stroke-width="3"/>
+        <!-- mag tube seam -->
+      </g>
+    </mask>
+  </defs>
+  <g data-norm="1" transform="translate(-3 -26)">
+  <g transform="translate(0 -4)">
+    <!-- stock -->
+    <path fill="currentColor" fill-opacity=".5" d="M60 276 L196 285 C220 287 244 292 270 294 L270 318 L268 320 C258 324 252 334 246 346 C242 354 238 360 236 366 L216 364 C220 350 222 338 216 330 C178 344 120 362 70 380 Z"/>
+    <g fill="none" stroke="currentColor" stroke-opacity=".28" stroke-width="1.3" stroke-linecap="round">
+      <path d="M80 292 C130 296 170 302 210 304"/>
+      <path d="M86 322 C130 322 170 324 206 322"/>
+      <path d="M92 354 C130 344 160 338 196 332"/>
+      <path d="M226 326 L248 304 M230 336 L256 310 M236 346 L262 318 M224 314 L256 322 M228 326 L258 332 M230 338 L252 342"/>
+      <path d="M396 307 L556 307 M404 315 L540 315"/>
+    </g>
+    <!-- forend -->
+    <path fill="currentColor" fill-opacity=".5" d="M374 298 L556 300 C566 300 569 306 567 314 C565 319 560 321 552 321 L374 325 Z"/>
+    <!-- butt pad -->
+    <path fill="currentColor" d="M52 275 L62 276 L72 380 L62 383 C58 352 54 312 52 275 Z"/>
+    <!-- metal -->
+    <g fill="currentColor" mask="url(#ba-k-ss)">
+      <!-- receiver -->
+      <path d="M266 290 C268 282 276 276 290 275 L370 276 C374 276 376 278 376 282 L376 318 C376 321 374 322 371 322 L276 322 C270 322 266 318 266 312 Z"/>
+      <!-- barrel + vent rib -->
+      <path d="M374 282 L752 285 L752 297 L374 300 Z"/>
+      <path d="M380 277 L746 280 L746 283 L380 281 Z"/>
+      <circle cx="746" cy="280" r="2.2"/>
+      <!-- magazine tube + cap -->
+      <path d="M560 302 L606 302 L606 316 L560 316 Z"/>
+      <path d="M604 300 L618 300 C620 300 621 302 621 304 L621 314 C621 316 620 318 618 318 L604 318 Z"/>
+      <!-- trigger guard -->
+      <path d="M288 321 C288 337 300 344 314 344 C328 344 340 336 342 321 L336 321 C334 332 326 338 314 338 C302 338 294 332 294 321 Z"/>
+      <path d="M308 322 C308 329 310 334 314 337 L316 336 C314 332 313 327 313 322 Z"/>
+    </g>
+  </g>
+  </g>
+</svg>

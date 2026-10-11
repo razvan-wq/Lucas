@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Rucsac de vânătoare">
+  <defs>
+    <mask id="ba-k-bp">
+      <rect width="800" height="600" fill="#fff"/>
+      <g fill="none" stroke="#000" stroke-linecap="round">
+        <path d="M300 196 C360 204 440 204 500 196" stroke-width="2" stroke-dasharray="5 5"/>
+        <path d="M342 262 h20 v16 h-20 z M438 262 h20 v16 h-20 z" stroke-width="2.4"/>
+        <path d="M300 470 H500" stroke-width="2" stroke-dasharray="5 5"/>
+      </g>
+    </mask>
+  </defs>
+  <g data-norm="1" transform="translate(400 300) scale(1.05) translate(-401 -298)">
+  <g transform="translate(0 0)">
+    <!-- haul loop -->
+    <path fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" d="M376 132 C376 108 424 108 424 132"/>
+    <!-- side pockets -->
+    <g fill="currentColor" fill-opacity=".38">
+      <path d="M296 318 L272 324 C266 326 264 330 264 336 L266 450 C266 458 270 462 278 462 L298 462 Z"/>
+      <path d="M504 318 L528 324 C534 326 536 330 536 336 L534 450 C534 458 530 462 522 462 L502 462 Z"/>
+    </g>
+    <!-- main body -->
+    <path fill="currentColor" fill-opacity=".5" d="M292 200 C292 160 330 136 400 136 C470 136 508 160 508 200 L512 456 C512 474 502 484 484 484 L316 484 C298 484 288 474 288 456 Z"/>
+    <!-- front pocket -->
+    <path fill="currentColor" fill-opacity=".38" d="M324 312 C324 302 330 296 340 296 L460 296 C470 296 476 302 476 312 L478 438 C478 448 472 454 462 454 L338 454 C328 454 322 448 322 438 Z"/>
+    <g fill="none" stroke="currentColor" stroke-opacity=".4" stroke-width="2" stroke-linecap="round">
+      <path d="M332 326 C360 316 440 316 468 326"/>
+      <path d="M300 236 V440 M500 236 V440" stroke-opacity=".25"/>
+      <path d="M266 360 H296 M266 420 H296 M504 360 H534 M504 420 H534" stroke-width="5" stroke-opacity=".7"/>
+    </g>
+    <g fill="currentColor">
+      <!-- lid -->
+      <path mask="url(#ba-k-bp)" d="M286 196 C286 156 326 130 400 130 C474 130 514 156 514 196 L514 208 C514 214 510 218 504 218 L296 218 C290 218 286 214 286 208 Z"/>
+      <!-- lid straps + buckles -->
+      <path mask="url(#ba-k-bp)" d="M344 214 h16 v66 h-16 z M440 214 h16 v66 h-16 z"/>
+      <path d="M347 280 h10 v28 h-10 z M443 280 h10 v28 h-10 z"/>
+      <!-- zipper pull -->
+      <path d="M462 324 l6 2 l-3 14 l-5 -1 z"/>
+      <!-- base -->
+      <path mask="url(#ba-k-bp)" d="M288 456 L512 456 C512 474 502 484 484 484 L316 484 C298 484 288 474 288 456 Z"/>
+    </g>
+  </g>
+  </g>
+</svg>

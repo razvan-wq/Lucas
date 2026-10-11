@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Bocanc de vânătoare din piele">
+  <defs>
+    <mask id="ba-k-bt">
+      <rect width="800" height="600" fill="#fff"/>
+      <g fill="none" stroke="#000" stroke-linecap="butt">
+        <path d="M232 474 V462 M256 474 V462 M280 474 V462 M362 474 V462 M386 474 V462 M410 474 V462 M434 474 V462 M458 474 V462 M482 474 V462 M506 474 V462 M530 474 V462 M554 474 V462 M578 474 V462 M602 474 V464" stroke-width="5"/>
+        <path d="M206 446 L620 446" stroke-width="2"/>
+              </g>
+    </mask>
+  </defs>
+  <g data-norm="1" transform="translate(-2 6)">
+  <g transform="translate(-14 -10)">
+    <!-- upper leather -->
+    <path fill="currentColor" fill-opacity=".5" d="M208 440 C194 420 192 376 202 340 C210 304 216 230 226 160 L232 148 C270 142 320 142 352 146 L364 160 C376 220 400 270 440 300 C500 330 570 344 600 362 C624 376 630 410 620 440 Z"/>
+    <!-- tongue -->
+    <path fill="currentColor" fill-opacity=".5" d="M346 146 L350 134 C356 130 370 130 376 134 L372 166 Z"/>
+    <!-- panel seams -->
+    <g fill="none" stroke="currentColor" stroke-opacity=".38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M204 330 C236 320 270 330 286 360 C298 384 300 404 300 420"/>
+      <path d="M356 176 C350 240 360 300 392 340 C420 372 470 392 520 404"/>
+      <path d="M230 190 C260 200 300 200 340 190" stroke-dasharray="5 5"/>
+      <path d="M216 336 C240 328 266 336 280 362" stroke-dasharray="4 5" stroke-opacity=".3"/>
+    </g>
+    <g fill="currentColor">
+      <!-- padded collar -->
+      <path d="M226 160 L232 148 C270 142 320 142 352 146 L358 172 C320 168 270 170 228 180 Z"/>
+      <!-- rubber rand + toe cap -->
+      <path d="M204 418 L520 418 C566 412 604 396 624 378 C631 398 629 424 620 440 L208 440 C204 434 203 426 204 418 Z"/>
+      <!-- lace hooks + eyelets -->
+      <circle cx="368" cy="184" r="4.5"/><circle cx="376" cy="210" r="4.5"/><circle cx="388" cy="236" r="4.5"/>
+      <circle cx="402" cy="260" r="4"/><circle cx="420" cy="280" r="4"/><circle cx="440" cy="296" r="4"/>
+      <path d="M370 172 L382 168 M378 198 L390 194" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <!-- laces -->
+    <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round">
+      <path d="M368 184 L384 196 M376 210 L394 220 M388 236 L404 244 M402 260 L418 266 M420 280 L432 284"/>
+      <path d="M369 168 C356 160 344 154 340 146 C348 142 360 152 369 168 C380 156 392 150 398 154 C394 162 382 166 369 168 M369 168 C364 180 356 190 350 196 M369 168 C376 182 380 192 388 198" stroke-width="2.6"/>
+    </g>
+    <!-- sole -->
+    <path fill="currentColor" mask="url(#ba-k-bt)" d="M200 440 L626 440 C634 444 636 454 632 464 L620 474 L348 474 C342 474 338 466 332 466 L308 466 C302 466 298 474 292 474 L214 474 C204 474 198 468 198 458 Z"/>
+  </g>
+  </g>
+</svg>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Trepied pentru tragere">
+  <g data-norm="1" transform="translate(400 300) scale(0.95) translate(-401 -319)">
+  <g transform="translate(0 4)">
+    <!-- back leg -->
+    <g fill="currentColor" fill-opacity=".45">
+      <path d="M390.4 222.6 L399.7 356 L417.6 354.9 L409.6 221.4Z M402.1 355.9 L410.9 483.7 L422.9 482.9 L415.2 355Z M408.5 483.9 L408.4 500.6 L427.6 499.4 L425.3 482.8Z"/>
+    </g>
+    <path fill="currentColor" fill-opacity=".6" d="M396.3 350.7 L397.6 370.1 L421.5 368.6 L420.3 349.1Z"/>
+    <!-- front legs: upper sections ink, lower sections tone -->
+    <g fill="currentColor">
+      <path d="M379.5 215.1 L312.9 360.4 L332.7 369.5 L400.5 224.9Z M399.5 224.9 L467.3 369.5 L487.1 360.4 L420.5 215.1Z"/>
+      <path fill-opacity=".55" d="M315.6 361.6 L251.8 500.8 L265 506.9 L330 368.3Z M470 368.3 L535 506.9 L548.2 500.8 L484.4 361.6Z"/>
+      <path d="M312.4 352.8 L302.6 374 L329 386.2 L338.8 365Z M461.2 365 L471 386.2 L497.4 374 L487.6 352.8Z M249.2 499.6 L239.5 517.1 L260.5 526.9 L267.6 508.1Z M532.4 508.1 L539.5 526.9 L560.5 517.1 L550.8 499.6Z"/>
+      <!-- hub -->
+      <path d="M372 196 C372 192 375 190 379 190 L421 190 C425 190 428 192 428 196 L428 222 C428 228 424 232 418 232 L382 232 C376 232 372 228 372 222 Z"/>
+      <!-- column + lock knob -->
+      <path d="M394 150 h12 v42 h-12 z"/>
+      <path d="M428 202 h14 c3 0 4 2 4 4 v6 c0 2 -1 4 -4 4 h-14 z"/>
+    </g>
+    <!-- V yoke rest -->
+    <path fill="currentColor" fill-opacity=".55" d="M340 104 C344 100 350 100 352 106 C362 132 378 144 400 144 C422 144 438 132 448 106 C450 100 456 100 460 104 C464 108 464 112 462 118 C450 150 428 164 400 164 C372 164 350 150 338 118 C336 112 336 108 340 104 Z"/>
+    <path fill="currentColor" d="M384 156 C390 160 410 160 416 156 L414 164 C408 168 392 168 386 164 Z"/>
+  </g>
+  </g>
+</svg>

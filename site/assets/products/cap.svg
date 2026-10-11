@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Șapcă de vânătoare">
+  <defs>
+    <mask id="ba-k-cp">
+      <rect width="800" height="600" fill="#fff"/>
+      <g fill="none" stroke="#000" stroke-linecap="round">
+        <path d="M540 382 C590 382 640 392 676 404" stroke-width="2" stroke-dasharray="5 5"/>
+        <path d="M232 380 C300 386 420 388 520 380" stroke-width="2" stroke-dasharray="5 5"/>
+      </g>
+    </mask>
+  </defs>
+  <g data-norm="1" transform="translate(0 -5)">
+  <g transform="translate(400 304) scale(1.16) translate(-460 -312)">
+    <!-- crown -->
+    <path fill="currentColor" fill-opacity=".5" d="M226 396 C220 304 292 222 394 220 C480 218 538 276 548 368 L550 396 C450 404 320 406 226 396 Z"/>
+    <!-- front panel patch -->
+    <path fill="currentColor" fill-opacity=".35" d="M440 300 C440 294 444 290 450 290 L500 290 C506 290 510 294 510 300 L510 336 C510 342 506 346 500 346 L450 346 C444 346 440 342 440 336 Z"/>
+    <path fill="currentColor" d="M448 334 L464 312 L472 322 L484 302 L502 334 Z"/>
+    <!-- seams -->
+    <g fill="none" stroke="currentColor" stroke-opacity=".38" stroke-width="2" stroke-linecap="round">
+      <path d="M394 222 C360 260 336 320 334 398"/>
+      <path d="M394 222 C430 256 452 300 458 290" stroke-opacity="0"/>
+      <path d="M394 222 C452 248 504 300 520 386"/>
+      <path d="M394 222 C320 236 262 300 252 398" stroke-opacity=".25"/>
+    </g>
+    <!-- eyelets -->
+    <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-opacity=".7">
+      <circle cx="368" cy="276" r="4"/><circle cx="296" cy="290" r="4"/>
+    </g>
+    <g fill="currentColor">
+      <!-- button -->
+      <path d="M380 222 C380 214 386 210 394 210 C402 210 408 214 408 222 Z"/>
+      <!-- brim -->
+      <path mask="url(#ba-k-cp)" d="M516 370 C580 362 652 378 694 402 C700 406 698 414 690 414 C640 414 580 404 520 400 Z"/>
+      <!-- sweatband edge -->
+      <path mask="url(#ba-k-cp)" d="M226 384 C320 394 450 392 548 384 L550 398 C450 406 320 408 226 398 Z"/>
+      <!-- back strap -->
+      <path d="M222 360 h16 v26 h-16 z"/>
+    </g>
+  </g>
+  </g>
+</svg>

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Lunetă de vânătoare">
+  <defs>
+    <mask id="ba-k-sc">
+      <rect width="800" height="600" fill="#fff"/>
+      <g fill="none" stroke="#000" stroke-linecap="round">
+        <path d="M100 274 L174 274" stroke-width="3"/>
+        <path d="M258 283 L328 283 M414 283 L516 283" stroke-width="2.6"/>
+        <path d="M586 266 L704 266" stroke-width="3"/>
+        <path d="M188 272 V328 M194 270 V330 M200 270 V330 M206 272 V328" stroke-width="2"/>
+        <path d="M352 232 V262 M360 232 V262 M368 232 V262 M376 232 V262 M384 232 V262 M392 232 V262" stroke-width="2"/>
+        <circle cx="370" cy="300" r="19" stroke-width="2.4"/>
+        <circle cx="370" cy="300" r="7" stroke-width="2"/>
+        <path d="M370 281 V275" stroke-width="2.4"/>
+        <path d="M92 266 V334" stroke-width="2.4"/>
+        <path d="M712 258 V342" stroke-width="2.4"/>
+      </g>
+    </mask>
+  </defs>
+  <g data-norm="1" transform="translate(4 0)">
+  <g transform="translate(0 18)">
+    <g fill="currentColor" mask="url(#ba-k-sc)">
+      <!-- eyepiece -->
+      <path d="M80 270 C80 265 84 262 89 262 L170 262 C176 262 180 266 180 270 L180 330 C180 334 176 338 170 338 L89 338 C84 338 80 335 80 330 Z"/>
+      <!-- power ring + lever -->
+      <path d="M180 267 L214 267 L214 333 L180 333 Z"/>
+      <path d="M192 267 L204 267 L202 254 L194 254 Z"/>
+      <!-- taper + tube -->
+      <path d="M214 270 L250 276 L330 276 L330 324 L250 324 L214 330 Z"/>
+      <path d="M410 276 L522 276 L572 254 L572 346 L522 324 L410 324 Z"/>
+      <!-- saddle -->
+      <path d="M330 274 C330 270 333 268 337 268 L403 268 C407 268 410 270 410 274 L410 326 C410 330 407 332 403 332 L337 332 C333 332 330 330 330 326 Z"/>
+      <!-- elevation turret -->
+      <path d="M344 228 L396 228 L396 268 L344 268 Z"/>
+      <path d="M340 220 C340 218 341 217 343 217 L397 217 C399 217 400 218 400 220 L400 229 L340 229 Z"/>
+      <!-- objective bell -->
+      <path d="M570 254 L712 254 C717 254 721 258 721 263 L721 337 C721 342 717 346 712 346 L570 346 Z"/>
+    </g>
+    <!-- rubber eyecup tone -->
+    <path fill="currentColor" fill-opacity=".45" d="M68 274 C68 268 72 266 76 266 L80 266 L80 334 L76 334 C72 334 68 332 68 326 Z"/>
+  </g>
+  </g>
+</svg>

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Cuțit de vânătoare cu teacă">
+  <defs>
+    <mask id="ba-k-kn">
+      <rect width="800" height="600" fill="#fff"/>
+      <g fill="none" stroke="#000" stroke-linecap="round">
+        <!-- grind line -->
+        <path d="M420 280 L556 280 C596 280 628 271 658 260" stroke-width="2.2"/>
+        <path d="M566 250 C604 250 636 253 660 257" stroke-width="1.4" stroke-opacity=".7"/>
+      </g>
+    </mask>
+    <mask id="ba-k-kn2">
+      <rect width="800" height="600" fill="#fff"/>
+      <g fill="none" stroke="#000" stroke-linecap="round">
+        <circle cx="300" cy="268" r="5" stroke-width="2.4"/>
+        <circle cx="236" cy="270" r="5" stroke-width="2.4"/>
+        <circle cx="180" cy="270" r="4" stroke-width="2.4"/>
+        <path d="M168 258 C200 252 300 252 380 256" stroke-width="1.4" stroke-opacity=".5"/>
+      </g>
+    </mask>
+    <mask id="ba-k-kn3">
+      <rect width="800" height="600" fill="#fff"/>
+      <g fill="none" stroke="#000" stroke-linecap="round" stroke-dasharray="6 7">
+        <path d="M300 368 L590 370 C626 370 656 378 680 391" stroke-width="2.4"/>
+        <path d="M300 412 L580 412 C616 412 646 406 672 398" stroke-width="2.4"/>
+      </g>
+      <path d="M236 344 h46 v92 h-46 z" fill="none" stroke="#000" stroke-width="2"/><path d="M290 352 V428" fill="none" stroke="#000" stroke-width="5"/>
+    </mask>
+  </defs>
+  <g data-norm="1" transform="translate(-19 -37)">
+  <g transform="translate(-6 0)">
+    <!-- blade -->
+    <path fill="currentColor" fill-opacity=".55" mask="url(#ba-k-kn)" d="M404 244 L560 244 C600 244 640 247 674 255 C677 256 677 259 674 261 C642 284 606 298 556 298 L404 294 Z"/>
+    <!-- spine jimping -->
+    <path fill="currentColor" d="M412 238 h3 v6 h-3 z M420 238 h3 v6 h-3 z M428 238 h3 v6 h-3 z M436 238 h3 v6 h-3 z"/>
+    <!-- guard -->
+    <path fill="currentColor" d="M394 230 C394 228 396 226 398 226 L406 226 C408 226 410 228 410 230 L410 306 C410 310 408 312 404 312 L400 312 C396 312 394 310 394 306 Z"/>
+    <!-- handle -->
+    <path fill="currentColor" mask="url(#ba-k-kn2)" d="M394 246 L380 246 C340 246 300 244 260 246 C220 248 190 246 164 252 C150 256 146 266 148 276 C150 286 158 294 170 294 C200 294 214 290 236 292 C260 294 280 296 300 292 C330 286 356 288 394 290 Z"/>
+    <!-- lanyard hole hint -->
+    <!-- sheath -->
+    <path fill="currentColor" fill-opacity=".35" mask="url(#ba-k-kn3)" d="M280 356 L590 358 C630 358 666 368 698 388 C702 391 701 395 696 397 C660 416 620 424 580 424 L280 424 C272 424 268 420 268 412 L268 368 C268 360 272 356 280 356 Z M228 340 C228 336 232 334 236 334 L284 334 C288 334 290 336 290 340 L290 440 C290 444 288 446 284 446 L236 446 C232 446 228 444 228 440 Z"/>
+  </g>
+  </g>
+</svg>

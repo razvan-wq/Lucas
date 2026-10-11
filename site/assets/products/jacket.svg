@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Jachetă de vânătoare">
+  <g data-norm="1" transform="translate(-1 -2)">
+  <g transform="translate(0 4)">
+    <!-- garment base -->
+    <g fill="currentColor" fill-opacity=".5">
+      <path d="M272 158 C240 168 220 198 210 258 L184 430 L236 442 L284 262 Z"/>
+      <path d="M528 158 C560 168 580 198 590 258 L616 430 L564 442 L516 262 Z"/>
+      <path d="M358 136 C330 146 300 152 272 158 L284 262 L280 470 C340 478 460 478 520 470 L516 262 L528 158 C500 152 470 146 442 136 C420 150 380 150 358 136 Z"/>
+    </g>
+    <!-- seams & stitching -->
+    <g fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M272 158 C282 190 286 226 284 262 M528 158 C518 190 514 226 516 262"/>
+      <path d="M278 212 C330 206 370 204 396 206 M522 212 C470 206 430 204 404 206"/>
+      <path d="M320 240 V300 H382 V240 M418 240 V300 H480 V240"/>
+      <path d="M302 366 V446 H382 V366 M418 366 V446 H498 V366"/>
+      <path d="M200 330 L224 336 M600 330 L576 336" stroke-opacity=".25"/>
+    </g>
+    <!-- dark parts: collar, placket, flaps, cuffs, hem -->
+    <g fill="currentColor">
+      <path d="M352 138 C378 124 422 124 448 138 L452 116 C424 102 376 102 348 116 Z"/>
+      <path d="M394 132 H406 V474 H394 Z"/>
+      <path d="M318 232 H384 V250 C384 254 382 256 378 256 L324 256 C320 256 318 254 318 250 Z"/>
+      <path d="M416 232 H482 V250 C482 254 480 256 476 256 L422 256 C418 256 416 254 416 250 Z"/>
+      <path d="M300 356 H384 V376 C384 380 382 382 378 382 L306 382 C302 382 300 380 300 376 Z"/>
+      <path d="M416 356 H500 V376 C500 380 498 382 494 382 L422 382 C418 382 416 380 416 376 Z"/>
+      <path d="M187 412 L240 424 L235 444 L183 432 Z"/>
+      <path d="M613 412 L560 424 L565 444 L617 432 Z"/>
+      <path d="M280 458 C340 466 460 466 520 458 L520 472 C460 480 340 480 280 472 Z"/>
+      <circle cx="351" cy="248" r="3"/><circle cx="449" cy="248" r="3"/>
+      <circle cx="342" cy="374" r="3"/><circle cx="458" cy="374" r="3"/>
+      <path d="M372 474 h6 v14 h-6 z M422 474 h6 v14 h-6 z"/>
+    </g>
+  </g>
+  </g>
+</svg>

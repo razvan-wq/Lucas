@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Pantaloni de vânătoare">
+  <defs>
+    <mask id="ba-k-tr">
+      <rect width="800" height="600" fill="#fff"/>
+      <g fill="none" stroke="#000" stroke-width="2.2">
+        <path d="M322 108 h10 v30 h-10 z M394 108 h12 v30 h-12 z M468 108 h10 v30 h-10 z"/>
+        <circle cx="400" cy="124" r="4"/>
+      </g>
+    </mask>
+  </defs>
+  <g data-norm="1" transform="translate(400 300) scale(0.9) translate(-401 -305)">
+  <g transform="translate(400 304) scale(.84 1.16) translate(-400 -300)">
+    <!-- base -->
+    <path fill="currentColor" fill-opacity=".5" d="M302 108 L498 108 L512 214 C514 300 512 400 508 494 L414 496 L404 270 L396 270 L386 496 L292 494 C288 400 286 300 288 214 Z"/>
+    <!-- knee reinforcement -->
+    <g fill="currentColor" fill-opacity=".38">
+      <path d="M292 378 C320 372 360 372 392 378 L389 440 C360 434 322 434 291 440 Z"/>
+      <path d="M508 378 C480 372 440 372 408 378 L411 440 C440 434 478 434 509 440 Z"/>
+    </g>
+    <!-- seams -->
+    <g fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M308 140 C316 170 330 190 348 198 M492 140 C484 170 470 190 452 198"/>
+      <path d="M400 140 V236 C400 248 392 254 382 252"/>
+      <path d="M292 304 V386 H346 V304 M508 304 V386 H454 V304"/>
+      <path d="M296 236 C330 232 360 232 392 236" stroke-opacity=".2"/>
+      <path d="M504 236 C470 232 440 232 408 236" stroke-opacity=".2"/>
+    </g>
+    <!-- dark: waistband, flaps, hems -->
+    <g fill="currentColor">
+      <path mask="url(#ba-k-tr)" d="M300 104 H500 L502 140 H298 Z"/>
+      <path d="M290 292 H348 V310 C348 314 346 316 342 316 L294 316 C291 316 290 314 290 311 Z"/>
+      <path d="M510 292 H452 V310 C452 314 454 316 458 316 L506 316 C509 316 510 314 510 311 Z"/>
+      <path d="M292 480 L387 482 L386 496 L292 494 Z"/>
+      <path d="M508 480 L413 482 L414 496 L508 494 Z"/>
+    </g>
+  </g>
+  </g>
+</svg>

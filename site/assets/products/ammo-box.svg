@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Cutie de cartușe cu glonț">
+  <defs>
+    <mask id="ba-k-am">
+      <rect width="800" height="600" fill="#fff"/>
+      <path d="M303 478 L303 473 L305.5 471 L305.5 468 L303 466 L304 378 L309 366 L309 350 L327 350 L327 366 L332 378 L333 466 L330.5 468 L330.5 471 L333 473 L333 478Z M309 351 C309 329 313 312 316.5 301 L319.5 301 C323 312 327 329 327 351 Z M371 486 L371 481 L373.5 479 L373.5 476 L371 474 L372 386 L377 374 L377 358 L395 358 L395 374 L400 386 L401 474 L398.5 476 L398.5 479 L401 481 L401 486Z M377 359 C377 337 381 320 384.5 309 L387.5 309 C391 320 395 337 395 359 Z M439 478 L439 473 L441.5 471 L441.5 468 L439 466 L440 378 L445 366 L445 350 L463 350 L463 366 L468 378 L469 466 L466.5 468 L466.5 471 L469 473 L469 478Z M445 351 C445 329 449 312 452.5 301 L455.5 301 C459 312 463 329 463 351 Z M507 486 L507 481 L509.5 479 L509.5 476 L507 474 L508 386 L513 374 L513 358 L531 358 L531 374 L536 386 L537 474 L534.5 476 L534.5 479 L537 481 L537 486Z M513 359 C513 337 517 320 520.5 309 L523.5 309 C527 320 531 337 531 359 Z" fill="#000" stroke="#000" stroke-width="8" stroke-linejoin="round"/>
+      <g fill="none" stroke="#000" stroke-linecap="round">
+        <path d="M232 278 H500 M232 400 H500" stroke-width="2.4"/>
+        <path d="M232 296 H380" stroke-width="7"/>
+        <path d="M232 314 H330" stroke-width="3"/>
+      </g>
+    </mask>
+    <mask id="ba-k-am2">
+      <rect width="800" height="600" fill="#fff"/>
+      <g fill="none" stroke="#000" stroke-linecap="round">
+        <path d="M310 462 L310.5 382 M378 470 L378.5 390 M446 462 L446.5 382 M514 470 L514.5 390" stroke-width="2.6"/>
+        <path d="M306 469.5 H330 M374 477.5 H398 M442 469.5 H466 M510 477.5 H534" stroke-width="1"/>
+      </g>
+    </mask>
+  </defs>
+  <g data-norm="1" transform="translate(400 300) scale(1.08) translate(-405 -291)">
+  <g transform="translate(-6 -28)">
+    <g mask="url(#ba-k-am)">
+      <!-- open top with cartridge tips -->
+      <path fill="currentColor" fill-opacity=".22" d="M210 252 L262 216 L572 216 L520 252 Z"/>
+      <g fill="currentColor" fill-opacity=".7">
+        <ellipse cx="241" cy="241.7" rx="10.5" ry="4.6"/><ellipse cx="274.3" cy="241.7" rx="10.5" ry="4.6"/><ellipse cx="307.7" cy="241.7" rx="10.5" ry="4.6"/><ellipse cx="341" cy="241.7" rx="10.5" ry="4.6"/><ellipse cx="374.3" cy="241.7" rx="10.5" ry="4.6"/><ellipse cx="407.7" cy="241.7" rx="10.5" ry="4.6"/><ellipse cx="441" cy="241.7" rx="10.5" ry="4.6"/><ellipse cx="474.3" cy="241.7" rx="10.5" ry="4.6"/><ellipse cx="507.7" cy="241.7" rx="10.5" ry="4.6"/><ellipse cx="257.7" cy="231" rx="10.5" ry="4.6"/><ellipse cx="291" cy="231" rx="10.5" ry="4.6"/><ellipse cx="324.3" cy="231" rx="10.5" ry="4.6"/><ellipse cx="357.7" cy="231" rx="10.5" ry="4.6"/><ellipse cx="391" cy="231" rx="10.5" ry="4.6"/><ellipse cx="424.3" cy="231" rx="10.5" ry="4.6"/><ellipse cx="457.7" cy="231" rx="10.5" ry="4.6"/><ellipse cx="491" cy="231" rx="10.5" ry="4.6"/><ellipse cx="524.3" cy="231" rx="10.5" ry="4.6"/><ellipse cx="274.3" cy="220.3" rx="10.5" ry="4.6"/><ellipse cx="307.7" cy="220.3" rx="10.5" ry="4.6"/><ellipse cx="341" cy="220.3" rx="10.5" ry="4.6"/><ellipse cx="374.3" cy="220.3" rx="10.5" ry="4.6"/><ellipse cx="407.7" cy="220.3" rx="10.5" ry="4.6"/><ellipse cx="441" cy="220.3" rx="10.5" ry="4.6"/><ellipse cx="474.3" cy="220.3" rx="10.5" ry="4.6"/><ellipse cx="507.7" cy="220.3" rx="10.5" ry="4.6"/><ellipse cx="541" cy="220.3" rx="10.5" ry="4.6"/>
+      </g>
+      <!-- side face -->
+      <path fill="currentColor" fill-opacity=".5" d="M520 252 L572 216 L572 382 C572 386 570 388 567 390 L524 420 C522 421 520 420 520 418 Z"/>
+      <!-- front face -->
+      <path fill="currentColor" d="M210 252 H520 V416 C520 419 518 420 516 420 H214 C212 420 210 419 210 416 Z"/>
+      <!-- lid flap folded back -->
+      <path fill="currentColor" fill-opacity=".4" d="M262 216 L300 150 L610 150 L572 216 Z"/>
+    </g>
+    <!-- cartridges -->
+    <g mask="url(#ba-k-am2)">
+      <path fill="currentColor" fill-opacity=".5" d="M303 478 L303 473 L305.5 471 L305.5 468 L303 466 L304 378 L309 366 L309 350 L327 350 L327 366 L332 378 L333 466 L330.5 468 L330.5 471 L333 473 L333 478Z M371 486 L371 481 L373.5 479 L373.5 476 L371 474 L372 386 L377 374 L377 358 L395 358 L395 374 L400 386 L401 474 L398.5 476 L398.5 479 L401 481 L401 486Z M439 478 L439 473 L441.5 471 L441.5 468 L439 466 L440 378 L445 366 L445 350 L463 350 L463 366 L468 378 L469 466 L466.5 468 L466.5 471 L469 473 L469 478Z M507 486 L507 481 L509.5 479 L509.5 476 L507 474 L508 386 L513 374 L513 358 L531 358 L531 374 L536 386 L537 474 L534.5 476 L534.5 479 L537 481 L537 486Z"/>
+      <path fill="currentColor" d="M309 351 C309 329 313 312 316.5 301 L319.5 301 C323 312 327 329 327 351 Z M377 359 C377 337 381 320 384.5 309 L387.5 309 C391 320 395 337 395 359 Z M445 351 C445 329 449 312 452.5 301 L455.5 301 C459 312 463 329 463 351 Z M513 359 C513 337 517 320 520.5 309 L523.5 309 C527 320 531 337 531 359 Z"/>
+    </g>
+  </g>
+  </g>
+</svg>

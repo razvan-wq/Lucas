@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Binoclu">
+  <defs>
+    <mask id="ba-k-bn">
+      <rect width="800" height="600" fill="#fff"/>
+      <g fill="none" stroke="#000" stroke-linecap="round">
+        <path d="M268 232 V420 M448 232 V420" stroke-width="3"/>
+        <path d="M252 226 H368 M432 226 H548" stroke-width="2.4"/>
+        <path d="M252 432 H368 M432 432 H548" stroke-width="2.4"/>
+        <path d="M384 196 H416 M384 204 H416 M384 212 H416 M384 220 H416 M384 228 H416" stroke-width="2"/>
+        <path d="M376 250 V266 M424 250 V266" stroke-width="1.6"/>
+      </g>
+    </mask>
+  </defs>
+  <g data-norm="1" transform="translate(400 300) scale(1.15) translate(-401 -308)">
+  <g transform="translate(0 4)">
+    <g fill="currentColor" mask="url(#ba-k-bn)">
+      <!-- barrels -->
+      <path d="M262 186 L358 186 L370 216 L370 436 C370 446 364 452 354 452 L266 452 C256 452 250 446 250 436 L250 216 Z"/>
+      <path d="M442 186 L538 186 L550 216 L550 436 C550 446 544 452 534 452 L446 452 C436 452 430 446 430 436 L430 216 Z"/>
+      <!-- hinge bridges -->
+      <path d="M366 238 H434 V284 H366 Z"/>
+      <path d="M366 372 H434 V408 H366 Z"/>
+      <!-- focus wheel -->
+      <path d="M380 190 C380 187 382 186 385 186 L415 186 C418 186 420 187 420 190 L420 238 L380 238 Z"/>
+    </g>
+    <!-- eyecups (rubber) -->
+    <g fill="currentColor" fill-opacity=".45">
+      <path d="M266 150 C266 146 269 144 273 144 L347 144 C351 144 354 146 354 150 L354 188 L266 188 Z"/>
+      <path d="M446 150 C446 146 449 144 453 144 L527 144 C531 144 534 146 534 150 L534 188 L446 188 Z"/>
+    </g>
+    <g fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="2">
+      <path d="M268 156 H352 M448 156 H532"/>
+    </g>
+    <!-- objective lenses (seen slightly from front) -->
+    <g fill="currentColor">
+      <ellipse cx="310" cy="452" rx="56" ry="11" fill-opacity=".55"/>
+      <ellipse cx="490" cy="452" rx="56" ry="11" fill-opacity=".55"/>
+    </g>
+  </g>
+  </g>
+</svg>

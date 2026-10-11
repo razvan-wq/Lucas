@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Telemetru laser">
+  <defs>
+    <mask id="ba-k-rf">
+      <rect width="800" height="600" fill="#fff"/>
+      <g fill="none" stroke="#000" stroke-linecap="round">
+        <path d="M262 286 H470" stroke-width="2.6"/>
+        <path d="M300 300 C300 294 304 290 310 290 H440 C446 290 450 294 450 300 V350 C450 356 446 360 440 360 H310 C304 360 300 356 300 350 Z" stroke-width="2.2"/>
+        <path d="M312 346 L336 304 M332 346 L356 304 M352 346 L376 304 M372 346 L396 304 M392 346 L416 304 M412 346 L436 304" stroke-width="1.4" stroke-opacity=".55"/>
+      </g>
+    </mask>
+    <mask id="ba-k-rf2">
+      <rect width="800" height="600" fill="#fff"/>
+      <ellipse cx="536" cy="322" rx="11" ry="24" fill="none" stroke="#000" stroke-width="2.4"/>
+      <path d="M530 306 C532 300 536 298 538 300" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="537" cy="268" r="3" fill="#000"/>
+    </mask>
+  </defs>
+  <g data-norm="1" transform="translate(400 300) scale(1.3) translate(-396 -329)">
+  <g transform="translate(14 2)">
+    <!-- top face -->
+    <path fill="currentColor" fill-opacity=".3" d="M246 262 L296 238 C300 236 304 235 310 235 L552 235 C560 235 562 240 556 243 L506 264 Z"/>
+    <!-- front face -->
+    <path fill="currentColor" fill-opacity=".55" d="M504 266 L554 245 C560 242 566 244 566 252 L566 352 C566 360 562 364 556 368 L512 386 C507 388 504 386 504 380 Z"/>
+    <!-- side face -->
+    <path fill="currentColor" mask="url(#ba-k-rf)" d="M228 278 C228 268 234 262 244 262 L490 262 C500 262 506 268 506 278 L506 370 C506 380 500 388 490 388 L244 388 C234 388 228 380 228 370 Z"/>
+    <!-- lenses on front face -->
+    <g fill="currentColor" mask="url(#ba-k-rf2)">
+      <ellipse cx="535" cy="322" rx="17" ry="34"/>
+      <ellipse cx="537" cy="268" rx="7" ry="12"/>
+    </g>
+    <!-- buttons -->
+    <path fill="currentColor" d="M334 248 C334 244 338 242 344 242 H382 C388 242 390 244 388 247 L384 252 C383 254 380 255 376 255 H338 C334 255 333 252 334 248 Z"/>
+    <path fill="currentColor" d="M398 248 C398 244 402 242 408 242 H436 C442 242 444 244 442 247 L438 252 C437 254 434 255 430 255 H402 C398 255 397 252 398 248 Z"/>
+    <!-- eyecup -->
+    <path fill="currentColor" fill-opacity=".45" d="M196 292 C196 286 200 282 206 282 L230 284 L230 366 L206 368 C200 368 196 364 196 358 Z"/>
+    <path fill="none" stroke="currentColor" stroke-opacity=".4" stroke-width="2" d="M206 290 V360"/>
+    <!-- lanyard loop -->
+    <path fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" d="M246 388 C244 404 254 414 268 414 C280 414 288 404 286 388"/>
+  </g>
+  </g>
+</svg>

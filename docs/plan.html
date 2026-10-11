@@ -1,0 +1,216 @@
+<title>Bistrița Alpină Build Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a single reading column like a briefing dossier; decision first, evidence after. Slate & brass from the shop sign. */
+:root {
+  --bg: #f2f3f0; --surface: #ffffff; --ink: #1f2427; --ink-2: #3b4246; --muted: #5d6662; --line: #d8dcd6;
+  --chrome: #2e3438; --on-chrome: #f1f2ef; --accent: #8c6421; --accent-soft: #f3ead9;
+  --ok: #2f6b3f; --ok-bg: #e4efe5; --warn: #8a5a00; --warn-bg: #f7ecd2; --crit: #a1302a; --crit-bg: #f6e1df;
+  --f-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif; --f-body: 'IBM Plex Sans', 'Segoe UI', Roboto, Arial, sans-serif; --f-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #171b1d; --surface: #20262a; --ink: #e9ecea; --ink-2: #c9cfcc; --muted: #9aa4a0; --line: #343c40;
+  --chrome: #0f1214; --on-chrome: #eef0ee; --accent: #d9a650; --accent-soft: #3a3020;
+  --ok: #8fd19e; --ok-bg: #1f3325; --warn: #e6b450; --warn-bg: #3a2f17; --crit: #f08a80; --crit-bg: #3d2220; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #171b1d; --surface: #20262a; --ink: #e9ecea; --ink-2: #c9cfcc; --muted: #9aa4a0; --line: #343c40;
+  --chrome: #0f1214; --on-chrome: #eef0ee; --accent: #d9a650; --accent-soft: #3a3020;
+  --ok: #8fd19e; --ok-bg: #1f3325; --warn: #e6b450; --warn-bg: #3a2f17; --crit: #f08a80; --crit-bg: #3d2220; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 400 16px/1.6 var(--f-body); margin: 0; }
+.top { background: var(--chrome); color: var(--on-chrome); padding: 48px 20px 40px; }
+.top .in, main { max-width: 860px; margin: 0 auto; }
+main { padding: 32px 20px 80px; display: grid; gap: 40px; }
+.eyebrow { font: 600 .74rem var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: #e2bf7c; }
+h1, h2, h3 { font-family: var(--f-display); font-stretch: 112%; line-height: 1.15; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(1.9rem, 1.3rem + 2.4vw, 2.8rem); font-weight: 820; margin: 10px 0 12px; }
+h2 { font-size: 1.45rem; font-weight: 760; margin-bottom: 14px; }
+h3 { font-size: 1.05rem; font-weight: 700; margin: 18px 0 6px; }
+.top p { color: #c5cbc8; max-width: 62ch; margin: 0; }
+p, li { max-width: 68ch; }
+p { margin: 0 0 12px; }
+ul, ol { padding-left: 22px; margin: 0 0 12px; display: grid; gap: 6px; }
+a { color: var(--accent); font-weight: 600; }
+.verdict { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 12px; padding: 22px 24px; }
+.verdict p:last-child { margin: 0; }
+.big { font: 700 1.2rem/1.4 var(--f-display); font-stretch: 105%; margin-bottom: 10px; }
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); margin: 4px 0 14px; }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; min-width: 560px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 600 .72rem var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--bg); }
+tr:last-child td { border-bottom: 0; }
+td.num { font-family: var(--f-mono); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tag { display: inline-block; font: 600 .66rem var(--f-mono); letter-spacing: .05em; text-transform: uppercase; padding: 3px 6px; border-radius: 4px; white-space: nowrap; }
+.t-ok { background: var(--ok-bg); color: var(--ok); } .t-warn { background: var(--warn-bg); color: var(--warn); } .t-crit { background: var(--crit-bg); color: var(--crit); }
+.unv { font: 600 .66rem var(--f-mono); color: var(--warn); background: var(--warn-bg); padding: 2px 5px; border-radius: 3px; letter-spacing: .04em; }
+.flow { list-style: none; padding: 0; counter-reset: f; display: grid; gap: 10px; }
+.flow li { counter-increment: f; display: grid; grid-template-columns: 34px 1fr; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; max-width: none; }
+.flow li::before { content: counter(f); width: 28px; height: 28px; border-radius: 50%; background: var(--chrome); color: var(--on-chrome); display: grid; place-items: center; font: 600 .82rem var(--f-mono); }
+.flow small { display: block; color: var(--muted); }
+.pals { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.pal { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.pal .sw { display: grid; grid-template-columns: 2fr 1fr 1fr; height: 70px; }
+.pal .b { padding: 12px 14px; font-size: .88rem; }
+.pal b { display: block; font-family: var(--f-display); font-size: 1rem; }
+.pal code { font: .74rem var(--f-mono); color: var(--muted); }
+@media (max-width: 640px) { .pals { grid-template-columns: 1fr; } }
+.check li { list-style: none; position: relative; }
+.check { padding-left: 0; }
+.check li::before { content: '☐'; position: absolute; left: -2px; color: var(--muted); }
+.check li { padding-left: 26px; }
+.src { font-size: .8rem; color: var(--muted); word-break: break-word; }
+.src li { max-width: none; }
+.note { background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; font-size: .92rem; }
+.note p:last-child { margin: 0; }
+</style>
+
+<header class="top"><div class="in">
+  <p class="eyebrow">Plan de construcție · Build plan · 11 Oct 2026</p>
+  <h1>Bistrița Alpină online shop</h1>
+  <p>Platform recommendation, the legal model for selling firearms, payments, the photo-to-listing workflow, palettes and the launch checklist. Facts carry their source; anything I could not verify is marked <span class="unv">UNVERIFIED</span>.</p>
+</div></header>
+
+<main>
+
+<section>
+  <h2>The answer: should we use Shopify?</h2>
+  <div class="verdict">
+    <p class="big">Yes: Shopify Grow, with firearms, ammunition and air guns sold as "reserve online, pay and collect in store". Settle card payments before building.</p>
+    <p><b>Why Shopify.</b> It covers the owner's main wish best: add products from the phone with the built-in camera and barcode scanner, remove backgrounds in the mobile media editor, and get AI descriptions from Sidekick. Its policy no longer has a firearms clause. armesimunitie.ro, a Romanian gun shop, already runs on Shopify with exactly this model: weapons and ammunition are pickup only, and payment is by bank transfer or cash on delivery.</p>
+    <p><b>The catch is card payments.</b> Shopify Payments excludes "firearms, holsters, ammunition, or weapons". NETOPIA's eligibility page lists "articole și produse de vânătoare (arme albe și arme de foc…)" among the fields it does not accept, which could affect the whole store. PayU Romania's position is <span class="unv">UNVERIFIED</span>. EuPlătesc's list of refused fields does not name weapons, but it has no Shopify app.</p>
+    <p><b>Decision rule.</b> Before building, ask EuPlătesc, PayU Romania, NETOPIA and Banca Transilvania <i>in writing</i> whether they will take this store: a hunting store whose firearms and ammunition are reserved online and paid in the shop.</p>
+    <ul>
+      <li>If <b>PayU or NETOPIA</b> says yes, use <b>Shopify Grow</b>.</li>
+      <li>If <b>only EuPlătesc or BT</b> says yes and online card payment is essential, use <b>Gomag Advanced</b> (€37/month + VAT). It has EuPlătesc, e-Factura and the couriers built in. The design moves over as-is.</li>
+      <li>If <b>nobody</b> says yes, Shopify still works. Launch with cash on delivery, bank transfer and payment in the shop, like armesimunitie.ro.</li>
+    </ul>
+    <p>Not WooCommerce. It carries no platform risk, but a non-technical owner would have to maintain plugins, security and backups.</p>
+  </div>
+</section>
+
+<section>
+  <h2>How selling firearms online works in Romania</h2>
+  <p>The site follows the model Romanian gun shops already use, and the EU rule (Directive 2021/555, Art. 8) that a licensed dealer checks identity and authorisation <i>before or at delivery</i>.</p>
+  <div class="tbl"><table>
+    <tr><th>Product class</th><th>How it sells on the site</th><th>Why</th></tr>
+    <tr><td>Firearms (cat. B), essential parts, barrels</td><td><span class="tag t-warn">Reserve · collect</span></td><td>Buyer needs a police <i>autorizație de procurare</i> (valid 90 days, extendable once). The armurier writes the sale onto it. The buyer registers the gun with the police within 3 working days (Legea 295/2004 art. 16, 22, 106). All five couriers ban firearms.</td></tr>
+    <tr><td>All ammunition</td><td><span class="tag t-warn">Reserve · collect</span></td><td>Sold only for guns listed on the buyer's permit, up to the quantity on the permit, at most 300 per weapon per calibre (art. 42). Couriers ban it.</td></tr>
+    <tr><td>Air guns ≤ 220 m/s (cat. C23)</td><td><span class="tag t-warn">Reserve · collect</span></td><td>Still need an authorisation (art. 57). Cargus also bans airsoft.</td></tr>
+    <tr><td>Knives</td><td><span class="tag t-ok">Ship · 18+</span></td><td>No statutory age found. 18+ is shop policy. None of the courier lists I read names knives.</td></tr>
+    <tr><td>Optics, clothing, boots, accessories</td><td><span class="tag t-ok">Ship</span></td><td>Normal checkout, courier or locker.</td></tr>
+    <tr><td>Night-vision sights, laser sights, suppressors</td><td><span class="tag t-crit">Don't list</span></td><td>Banned for private persons (art. 5(2)). Handheld thermal <i>spotters</i> are not sights. Confirm with the lawyer.</td></tr>
+  </table></div>
+  <p>The legal text I read is the 2014 republication of Legea 295/2004. Later amendments exist (OG 38/2024, approved in 2025), and I did not obtain the implementing norms. Art. 17(5) leaves distance sales to those norms, so <b>a lawyer or IPJ Bistrița-Năsăud must confirm the flow before launch</b>.</p>
+</section>
+
+<section>
+  <h2>Platform comparison</h2>
+  <div class="tbl"><table>
+    <tr><th></th><th>Shopify Grow</th><th>Gomag Advanced</th><th>WooCommerce</th></tr>
+    <tr><td>Monthly cost</td><td class="num">279 lei (annual) · 369 lei (monthly)</td><td class="num">€37 + VAT</td><td>Hosting + plugins <span class="unv">UNVERIFIED</span></td></tr>
+    <tr><td>Fee on outside-gateway sales</td><td class="num">1%</td><td>None stated</td><td>None</td></tr>
+    <tr><td>Card payments for this store</td><td>NETOPIA / PayU apps, approval doubtful</td><td>EuPlătesc, NETOPIA built in</td><td>NETOPIA plugin</td></tr>
+    <tr><td>Phone photo → AI → live</td><td><b>Best</b>: camera, background removal, Sidekick (Romanian <span class="unv">UNVERIFIED</span>)</td><td>AI descriptions; phone flow <span class="unv">UNVERIFIED</span></td><td>Weak</td></tr>
+    <tr><td>e-Factura</td><td>SmartBill / Oblio / FGO apps</td><td>Built in</td><td>Plugins</td></tr>
+    <tr><td>FAN / Sameday / Cargus labels</td><td>Expedly (from $14.99/mo) or Fluxsales</td><td>Built in</td><td>Official Sameday & Cargus plugins</td></tr>
+    <tr><td>Weapons policy risk</td><td>Medium: no clause today, discretionary enforcement</td><td>Low: no clause</td><td>None</td></tr>
+    <tr><td>Owner upkeep</td><td>Lowest</td><td>Low</td><td>Highest</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2>Stock upload: photo to live listing</h2>
+  <p>The owner's whole job is one photo plus a price. The prototype's owner dashboard (Panou proprietar → Adaugă produs) shows the exact screens.</p>
+  <ol class="flow">
+    <li><span><b>Snap 1–3 photos and scan the barcode</b><small>Phone, any background. The Shopify app has a product camera and barcode scanner.</small></span></li>
+    <li><span><b>Background removed, studio background and shadow added</b><small>Photoroom API: $0.02/image (removal), $0.10/image (AI background + shadow). Shopify's media editor can also remove backgrounds on mobile, free for now.</small></span></li>
+    <li><span><b>Product identified</b><small>EAN lookup (EAN-Search.org: 5,000 lookups for €19/month) plus Claude reading the model name off the photo.</small></span></li>
+    <li><span><b>Title, Romanian and English description, category and specs written</b><small>Claude API, structured output. Uncertain specs are flagged "verifică" for the owner.</small></span></li>
+    <li><span><b>Owner checks price and stock, then taps Publish</b><small>Sale mode (ship / 18+ / reserve) is set by category, so a rifle can never be added to the courier checkout by mistake.</small></span></li>
+  </ol>
+  <p><b>Cost per product</b> (3 photos, Sonnet 5.5): 1×$0.10 + 2×$0.02 = $0.14 for images, plus about $0.026 for Claude, plus €0.004 for EAN. That is about <b>$0.17 + €0.004</b>. Token counts are estimates. For 1,000 products: about $170 plus the €19 EAN plan.</p>
+  <div class="note"><p><b>How to build it.</b> Start with Shopify's built-ins (camera, background removal, Sidekick) for zero extra cost. If Sidekick's Romanian is weak during the trial, add a small custom "Adaugă produs" app: a phone web page calling Photoroom and Claude, then creating the product through Shopify's Admin API. It is one focused piece of work, and the prototype's screen is its spec.</p></div>
+  <p>Avoid fully generative image editing (Gemini or OpenAI image models) for packshots: it can change engravings or reticles. Use it only for lifestyle scenes.</p>
+</section>
+
+<section>
+  <h2>Orders and daily operations</h2>
+  <ul>
+    <li><b>Courier orders:</b> pack, then generate the AWB in Expedly or Fluxsales (FAN, Sameday, Cargus, lockers). The customer gets tracking automatically.</li>
+    <li><b>Invoices:</b> SmartBill (Shopify app from $17.99/month) or Oblio (official app, free) issue the invoice. Whether the Shopify-to-SmartBill route sends invoices to ANAF e-Factura automatically is <span class="unv">UNVERIFIED</span>. Test it in the trial; B2C e-Factura has been mandatory since 1 Jan 2025.</li>
+    <li><b>Reservations:</b> statuses go "Documente de verificat" → "Gata de ridicare" → "Ridicată". On Shopify this needs a reservation form with document upload, either an app or custom theme code. The app choice is <span class="unv">UNVERIFIED</span>; I'll pick it during the build.</li>
+    <li><b>In-store POS:</b> Shopify POS card payments likely depend on Shopify Payments, so keep the shop's existing card terminal and use POS only for stock sync (<span class="unv">UNVERIFIED</span>).</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Colour palettes</h2>
+  <p>All three are live in the prototype. Use the "Paletă de culori" button at the bottom left. Every palette keeps the slate header from the shop sign.</p>
+  <div class="pals">
+    <div class="pal"><div class="sw"><i style="background:#2e3438"></i><i style="background:#8c6421"></i><i style="background:#f2f3f0"></i></div><div class="b"><b>Ardezie și alamă</b>Slate and brass. Matches the existing sign, calm and premium. <i>My pick.</i><br><code>#2E3438 · #8C6421 · #F2F3F0</code></div></div>
+    <div class="pal"><div class="sw"><i style="background:#1e3327"></i><i style="background:#c2410c"></i><i style="background:#f0f2ec"></i></div><div class="b"><b>Brad și portocaliu</b>Fir green with hunter's blaze orange. The most "hunting", with the strongest calls to action.<br><code>#1E3327 · #C2410C · #F0F2EC</code></div></div>
+    <div class="pal"><div class="sw"><i style="background:#1b2a38"></i><i style="background:#a4522b"></i><i style="background:#edf1f3"></i></div><div class="b"><b>Ghețar și cupru</b>Glacier navy with copper. The most "alpine outdoor", leaning towards optics and clothing.<br><code>#1B2A38 · #A4522B · #EDF1F3</code></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>What I took from guns.com, and what I didn't</h2>
+  <ul>
+    <li><b>Kept:</b> filters per category (calibre, action, barrel, magnification…), the key specs on every card, a clear spec table, a trust strip, calibre shortcuts, and a "certified used" idea for second-hand guns brokered in the shop.</li>
+    <li><b>Added for Romania:</b> a split cart (courier items and reservations side by side), the document step in checkout, price per cartridge for ammunition, an estimated delivery date, the Omnibus "lowest price in 30 days" on discounts, guest checkout first, and RO county and company-invoice fields.</li>
+    <li><b>Dropped:</b> the FFL transfer, financing, auctions, Make-an-Offer and US state compliance. No fake reviews: product pages say "no verified reviews yet" until real ones exist.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Marketing limits</h2>
+  <p>Google Merchant Center (Shopping and free listings) does not allow guns, ammunition, scopes and sights, or fighting knives. Meta ads prohibit firearms, ammunition and telescopic sights, and Meta commerce prohibits weapon sales. Exclude those product types from the shopping feeds. Advertise clothing, boots, binoculars and hunting gear, with 18+ targeting on Meta. Whether binoculars and handheld thermals count as "optics" for Meta is <span class="unv">UNVERIFIED</span>; test with a small budget.</p>
+</section>
+
+<section>
+  <h2>Launch checklist</h2>
+  <h3>From the owner</h3>
+  <ul class="check">
+    <li>Company name, CUI, Reg. Com., address, phone, email, WhatsApp, opening hours</li>
+    <li>Armurier authorisation number (shown in the footer)</li>
+    <li>Written answers from EuPlătesc, PayU, NETOPIA and BT on accepting the store</li>
+    <li>Courier contract (FAN and/or Sameday) and the real shipping fees and free-shipping threshold (the prototype uses 24,99 / 14,99 / 500 lei as placeholders)</li>
+    <li>Choice of palette; original logo files if available (the SVG logo was redrawn from photos of the sign)</li>
+    <li>Confirm the shop policies the site states: same-day call-back, 14-day reservation hold, 1–3 day delivery, 18+ for knives</li>
+  </ul>
+  <h3>Legal (lawyer)</h3>
+  <ul class="check">
+    <li>Confirm the reservation and pickup flow against the current consolidated Legea 295/2004 and its norms</li>
+    <li>Terms and conditions, privacy policy (permit data, retention for the dealer register), cookie policy</li>
+    <li>Withdrawal button (OUG 18/2026, in force 19 Jun 2026) and 14-day withdrawal. Confirm that in-store pickup contracts aren't distance contracts</li>
+    <li>ANPC SAL pictogram linking to reclamatiisal.anpc.ro; no EU ODR/SOL link (that platform closed 20 Jul 2025)</li>
+  </ul>
+  <h3>Build</h3>
+  <ul class="check">
+    <li>Shopify trial: test Sidekick in Romanian, SmartBill e-Factura, Expedly labels</li>
+    <li>Turn the prototype into a custom Shopify theme (same design, filters, split cart, reservation form)</li>
+    <li>Load the real catalogue: photograph the stock with the workflow above</li>
+    <li>Domain, SSL, Google Business Profile, analytics with consent</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Sources</h2>
+  <ul class="src">
+    <li>Legea 295/2004 (2014 republication): legeaz.net/monitorul-oficial-425-2014/legea-295-2004-republicata · annex: lege5.ro</li>
+    <li>Directive (EU) 2021/555: eur-lex.europa.eu CELEX 32021L0555</li>
+    <li>Courier lists: fancourier.ro conditii generale · sameday.ro modalitati-de-ambalare (archived 25 Sep 2026) · cargus.ro restrictions PDF · dpd.com/ro prohibited goods · gls-group.com/RO FAQ</li>
+    <li>Payments: help.shopify.com Shopify Payments eligibility & supported countries · netopia-payments.com/conditii-eligibilitate · euplatesc.ro/ofertav2 · stripe.com/legal/restricted-businesses · paypal.com acceptable use</li>
+    <li>Shopify: shopify.com/legal/aup · shopify.com/ro/pricing · apps.shopify.com (netopia-payments, payu-gpo, smartbill-integration, oblio-eu, expedly, fluxsales) · help.shopify.com media editor, add products, Sidekick</li>
+    <li>Gomag: gomag.ro/preturi, /functionalitati, /termeni-si-conditii · MerchantPro: merchantpro.ro/abonamente</li>
+    <li>Romanian shops: armesimunitie.ro/policies/shipping-policy · earmeria.ro/carabine · magazindearme.ro/cum-cumpar-o-arma</li>
+    <li>guns.com (Wayback snapshots, 2025–2026) · frankonia.de Waffen- und Munitionskauf · baymard.com checkout & filtering research</li>
+    <li>Pricing: photoroom.com/api/pricing · claude.com/pricing · ean-search.org</li>
+    <li>Ads: support.google.com/merchants/answer/6150004 · transparency.meta.com weapons policy · facebook.com/policies_center/commerce</li>
+    <li>Consumer law: ODR repeal Reg. (EU) 2024/3228 · ANPC Order 270/2026 (press) · OUG 18/2026 (press) · e-Factura B2C (press)</li>
+  </ul>
+</section>
+
+</main>
