@@ -156,6 +156,17 @@ td.num { font-family: var(--f-mono); white-space: nowrap; font-variant-numeric: 
 </section>
 
 <section>
+  <h2>The prototype</h2>
+  <p>A working storefront and owner dashboard in Romanian and English, as one file: <code>dist/bistrita-alpina-prototip.html</code> in the repository. It opens in any browser, offline too. It contains:</p>
+  <ul>
+    <li><b>Shop:</b> categories with hunting-specific filters, search with suggestions, product pages with spec tables, and the split cart (courier items and reservations side by side).</li>
+    <li><b>Checkout:</b> guest checkout, a document step for reservations, courier / easybox / pickup, card / cash on delivery / bank transfer, the 18+ confirmation, consents and the withdrawal form.</li>
+    <li><b>Owner dashboard</b> ("Panou proprietar", via the person icon): today's tasks, the photo → AI → publish flow (the AI is simulated in the prototype), orders with document checks and AWB, and stock with +/− buttons and online visibility.</li>
+  </ul>
+  <p>Four QA agents tested it: functional, visual and accessibility, copy and compliance, and a final automated run. That run passed 3,134 checks at phone and desktop sizes in both languages, including with browser storage blocked. Untested: real iPhone Safari and screen readers. Products, prices, orders and specs are demo data; several specs are unverified against manufacturer pages.</p>
+</section>
+
+<section>
   <h2>What I took from guns.com, and what I didn't</h2>
   <ul>
     <li><b>Kept:</b> filters per category (calibre, action, barrel, magnification…), the key specs on every card, a clear spec table, a trust strip, calibre shortcuts, and a "certified used" idea for second-hand guns brokered in the shop.</li>
@@ -186,6 +197,9 @@ td.num { font-family: var(--f-mono); white-space: nowrap; font-variant-numeric: 
     <li>Terms and conditions, privacy policy (permit data, retention for the dealer register), cookie policy</li>
     <li>Withdrawal button (OUG 18/2026, in force 19 Jun 2026) and 14-day withdrawal. Confirm that in-store pickup contracts aren't distance contracts</li>
     <li>ANPC SAL pictogram linking to reclamatiisal.anpc.ro; no EU ODR/SOL link (that platform closed 20 Jul 2025)</li>
+    <li>Withdrawal flow format: whether OUG 18/2026 needs a two-step "withdraw → confirm" with a dated acknowledgement <span class="unv">UNVERIFIED</span></li>
+    <li>Cash limit for in-store payment of expensive firearms (believed to be 10,000 lei/day under Legea 70/2015) <span class="unv">UNVERIFIED</span></li>
+    <li>Retention and secure storage of uploaded permits and authorisations</li>
   </ul>
   <h3>Build</h3>
   <ul class="check">

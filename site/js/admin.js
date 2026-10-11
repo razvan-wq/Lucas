@@ -5,24 +5,24 @@
     ro: {
       title: 'Panou proprietar', viewShop: 'Vezi magazinul', demo: 'Date demo',
       navHome: 'Azi', navAdd: 'Adaugă produs', navOrders: 'Comenzi', navStock: 'Stoc',
-      hello: 'Bună dimineața', todayLead: 'Ce ai de făcut azi în magazin.',
+      hello: 'Bună ziua', todayLead: 'Ce ai de făcut azi în magazin.',
       kNew: 'Comenzi noi de pregătit', kDocs: 'Rezervări cu documente de verificat', kLow: 'Produse cu stoc redus', kOpen: 'Valoare comenzi deschise',
       quickAdd: 'Adaugă un produs nou', quickAddD: 'Fă o poză cu telefonul. Restul îl completează asistentul AI: fundal, titlu, descriere în română și engleză, specificații.',
       start: 'Începe',
-      todo: 'De rezolvat', todoDocs: '{n} {rez} verificarea permisului', todoNew: '{n} {com} de împachetat', todoLow: '{n} {prod} aproape de epuizare', allDone: 'Nimic urgent. Bună treabă.',
+      todo: 'De rezolvat', todoDocs: '{n} {rez} verificarea documentelor', todoNew: '{n} {com} de împachetat', todoLow: '{n} {prod} aproape de epuizare', allDone: 'Nimic urgent. Bună treabă.',
       // add flow
       addTitle: 'Adaugă produs', addLead: 'O poză clară, pe orice fundal. Ține produsul întreg în cadru.',
       takePhoto: 'Fotografiază produsul', orUpload: 'sau alege o poză din galerie',
-      tryDemo: 'Încearcă cu o poză demo', tips: 'Sfaturi: lumină naturală, fără reflexii, o poză și cu eticheta sau codul de bare.',
+      tryDemo: 'Încearcă cu o poză demo', tips: 'Sfaturi: lumină naturală, fără reflexii și încă o poză cu eticheta sau codul de bare.',
       p1: 'Elimin fundalul', p1d: 'Photoroom API',
       p2: 'Aplic fundal de studio, umbră și încadrare', p2d: 'Format pătrat 1200 px, WebP',
       p3: 'Recunosc produsul și codul de bare', p3d: 'Claude (viziune) + căutare EAN',
       p4: 'Scriu titlul și descrierea în română și engleză', p4d: 'Claude API',
       p5: 'Completez categoria și specificațiile', p5d: 'Pe baza catalogului producătorului',
       simulated: 'În prototip pașii AI sunt simulați. În magazinul live rulează automat, în 10–20 de secunde.',
-      review: 'Verifică și publică', reviewLead: 'Asistentul a completat câmpurile. Tu verifici prețul și stocul.',
-      before: 'Original', after: 'Editat AI',
-      fCat: 'Categorie', fSub: 'Subcategorie', fBrand: 'Marcă', fName: 'Denumire produs', fPrice: 'Preț de vânzare (lei)', fOld: 'Preț vechi (opțional, pentru reducere)',
+      review: 'Verifică și publică', reviewLead: 'Asistentul a completat câmpurile. Verifică prețul, stocul și specificațiile.',
+      before: 'Original', after: 'Editat cu AI',
+      fCat: 'Categorie', fSub: 'Subcategorie', fBrand: 'Marcă', fName: 'Denumire produs', fPrice: 'Preț de vânzare (lei)', fOld: 'Cel mai mic preț din ultimele 30 de zile (doar la reducere)',
       fStock: 'Bucăți în magazin', fEan: 'Cod EAN / cod de bare', fDescRo: 'Descriere în română', fDescEn: 'Descriere în engleză', fSpecs: 'Specificații',
       fMode: 'Mod de vânzare', fOnline: 'Vizibil în magazinul online', aiFilled: 'completat de AI', regen: 'Rescrie cu AI', addSpec: 'Adaugă rând',
       publish: 'Publică acum', saveDraft: 'Salvează ciornă', needPrice: 'Introdu prețul de vânzare', needName: 'Introdu denumirea', needStock: 'Introdu stocul',
@@ -45,11 +45,11 @@
     en: {
       title: 'Owner dashboard', viewShop: 'View shop', demo: 'Demo data',
       navHome: 'Today', navAdd: 'Add product', navOrders: 'Orders', navStock: 'Stock',
-      hello: 'Good morning', todayLead: 'What needs doing in the shop today.',
+      hello: 'Hello', todayLead: 'What needs doing in the shop today.',
       kNew: 'New orders to pack', kDocs: 'Reservations awaiting document check', kLow: 'Low-stock products', kOpen: 'Open order value',
       quickAdd: 'Add a new product', quickAddD: 'Take a photo with your phone. The AI assistant does the rest: background, title, Romanian and English description, specs.',
       start: 'Start',
-      todo: 'To do', todoDocs: '{n} {rez} awaiting licence check', todoNew: '{n} {com} to pack', todoLow: '{n} {prod} running low', allDone: 'Nothing urgent. Nice work.',
+      todo: 'To do', todoDocs: '{n} {rez} awaiting document check', todoNew: '{n} {com} to pack', todoLow: '{n} {prod} running low', allDone: 'Nothing urgent. Nice work.',
       addTitle: 'Add product', addLead: 'One clear photo on any background. Keep the whole product in frame.',
       takePhoto: 'Photograph the product', orUpload: 'or choose a photo from your gallery',
       tryDemo: 'Try with a demo photo', tips: 'Tips: natural light, no glare, plus one shot of the label or barcode.',
@@ -59,9 +59,9 @@
       p4: 'Writing the title and description in Romanian and English', p4d: 'Claude API',
       p5: 'Filling in category and specifications', p5d: 'From the manufacturer catalogue',
       simulated: 'In the prototype the AI steps are simulated. In the live shop they run automatically in 10–20 seconds.',
-      review: 'Review and publish', reviewLead: 'The assistant filled in the fields. You check price and stock.',
+      review: 'Review and publish', reviewLead: 'The assistant filled in the fields. Check price, stock and specs.',
       before: 'Original', after: 'AI edited',
-      fCat: 'Category', fSub: 'Subcategory', fBrand: 'Brand', fName: 'Product name', fPrice: 'Selling price (lei)', fOld: 'Previous price (optional, for a sale)',
+      fCat: 'Category', fSub: 'Subcategory', fBrand: 'Brand', fName: 'Product name', fPrice: 'Selling price (lei)', fOld: 'Lowest price in the last 30 days (sales only)',
       fStock: 'Units in store', fEan: 'EAN / barcode', fDescRo: 'Romanian description', fDescEn: 'English description', fSpecs: 'Specifications',
       fMode: 'How it sells', fOnline: 'Visible in the online shop', aiFilled: 'AI filled', regen: 'Rewrite with AI', addSpec: 'Add row',
       publish: 'Publish now', saveDraft: 'Save draft', needPrice: 'Enter the selling price', needName: 'Enter the product name', needStock: 'Enter the stock',
@@ -290,9 +290,9 @@
     const q = A.stockQ.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim();
     const list = allProducts().filter((p) => !q || (p.brand + ' ' + p.name + ' ' + p.id).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').includes(q));
     return list.map((p) => '<tr class="' + (p.stock <= 1 ? 'low' : '') + '"><td><div class="st-prod"><span class="st-img">' + B().pimg(p) + '</span><span><small>' + esc(p.brand) + '</small>' + esc(p.name) + (p.stock <= 1 ? '<em class="low-tag">' + x('low') + '</em>' : '') + '</span></div></td>' +
-        '<td class="hide-sm">' + esc(catName(p.cat)) + '</td><td class="num">' + fmt(p.price) + '</td>' +
-        '<td><div class="qty sm"><button data-action="adm-stock" data-id="' + p.id + '" data-d="-1" aria-label="' + x('less') + ': ' + esc(p.name) + '">' + icon('minus') + '</button><span>' + p.stock + '</span><button data-action="adm-stock" data-id="' + p.id + '" data-d="1" aria-label="' + x('more') + ': ' + esc(p.name) + '">' + icon('plus') + '</button></div></td>' +
-        '<td><label class="toggle sm"><input type="checkbox" data-adm-online="' + p.id + '"' + (p.online !== false ? ' checked' : '') + ' aria-label="' + x('online') + ': ' + esc(p.name) + '"><span class="tg"></span></label></td></tr>').join('');
+        '<td class="hide-sm">' + esc(catName(p.cat)) + '</td><td class="num" data-label="' + x('price') + '">' + fmt(p.price) + '</td>' +
+        '<td data-label="' + x('qty') + '"><div class="qty sm"><button data-action="adm-stock" data-id="' + p.id + '" data-d="-1" aria-label="' + x('less') + ': ' + esc(p.name) + '">' + icon('minus') + '</button><span>' + p.stock + '</span><button data-action="adm-stock" data-id="' + p.id + '" data-d="1" aria-label="' + x('more') + ': ' + esc(p.name) + '">' + icon('plus') + '</button></div></td>' +
+        '<td data-label="' + x('online') + '"><label class="toggle sm"><input type="checkbox" data-adm-online="' + p.id + '"' + (p.online !== false ? ' checked' : '') + ' aria-label="' + x('online') + ': ' + esc(p.name) + '"><span class="tg"></span></label></td></tr>').join('');
   }
   function vStock() {
     const { icon, esc } = B();
@@ -314,7 +314,7 @@
     onAction(act, el, ev) {
       const { S, store, toast } = B();
       const H = {
-        'adm-demo': () => runPipeline('assets/products/binoculars.svg', true, SAMPLE),
+        'adm-demo': () => runPipeline(B().asset('assets/products/binoculars.svg'), true, SAMPLE),
         'adm-again': () => { A.step = 'capture'; B().render(); },
         'adm-compare': () => { A.compare = el.dataset.v; B().render(); },
         'adm-regen': () => { A.f.descRo = A.f.descRo.replace(/\.$/, '') + '. Livrat cu husă și curea de transport.'; A.f.descEn = A.f.descEn.replace(/\.$/, '') + '. Supplied with case and carry strap.'; B().render(); toast(x('aiFilled')); },

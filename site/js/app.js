@@ -105,9 +105,11 @@
     return '<svg class="ic ' + (cls || '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (P[name] || '') + '</svg>';
   }
 
+  // assets resolve to inlined data URIs in the single-file build (window.BA_ASSETS), else to files
+  const asset = (path) => (window.BA_ASSETS && window.BA_ASSETS[path]) || path;
   function pimg(p, cls) {
     if (p.photo) return '<img class="pimg-photo ' + (cls || '') + '" src="' + p.photo + '" alt="' + esc(p.brand + ' ' + p.name) + '">';
-    return '<div class="pimg ' + (cls || '') + '" role="img" aria-label="' + esc(p.brand + ' ' + p.name) + '" style="-webkit-mask-image:url(\'assets/products/' + p.img + '.svg\');mask-image:url(\'assets/products/' + p.img + '.svg\')"></div>';
+    return '<div class="pimg ' + (cls || '') + '" role="img" aria-label="' + esc(p.brand + ' ' + p.name) + '" style="-webkit-mask-image:url(\'' + asset('assets/products/' + p.img + '.svg') + '\');mask-image:url(\'' + asset('assets/products/' + p.img + '.svg') + '\')"></div>';
   }
 
   // ——— cart
@@ -155,7 +157,7 @@
         '<a class="brand" href="#home" aria-label="Bistrița Alpină — ' + t('home') + '"><span class="logo-mark"></span><span class="brand-text"><b>Bistrița Alpină</b><small>' + (L() === 'ro' ? 'Vânătoare și outdoor' : 'Hunting & outdoor') + '</small></span></a>' +
         '<form class="search" role="search" data-form="search"><label class="sr" for="q">' + t('search') + '</label>' + icon('search') + '<input id="q" name="q" type="search" autocomplete="off" placeholder="' + t('searchPh') + '" value="' + esc(S.query) + '"><div class="suggest" hidden></div></form>' +
         '<div class="header-actions">' +
-          '<button class="lang" data-action="lang" aria-label="Language">' + icon('globe') + '<span>' + (L() === 'ro' ? 'EN' : 'RO') + '</span></button>' +
+          '<button class="lang" data-action="lang" aria-label="' + (L() === 'ro' ? 'English' : 'Română') + '" lang="' + (L() === 'ro' ? 'en' : 'ro') + '">' + icon('globe') + '<span>' + (L() === 'ro' ? 'EN' : 'RO') + '</span></button>' +
           '<a class="icon-btn hide-sm" href="#admin" title="' + t('owner') + '" aria-label="' + t('owner') + '">' + icon('user') + '</a>' +
           '<button class="icon-btn cart-btn" data-action="open-cart" aria-label="' + t('cart') + '">' + icon('bag') + '<span class="count" data-cart-count hidden>0</span></button>' +
         '</div>' +
@@ -175,7 +177,7 @@
         '<div><h4>' + t('fCompany') + '</h4><ul><li><a href="#info-termeni">' + t('fTerms') + '</a></li><li><a href="#info-gdpr">' + t('fPrivacy') + '</a></li><li><a href="https://anpc.ro" target="_blank" rel="noopener">' + t('fAnpc') + '</a></li><li><a href="https://reclamatiisal.anpc.ro/" target="_blank" rel="noopener">' + t('fSal') + '</a></li><li><a href="#info-retragere">' + t('fWithdraw') + '</a></li></ul></div>' +
       '</div>' +
       '<div class="foot-legal"><span>© 2026 ' + esc(STORE.legalName) + ' · CUI ' + esc(STORE.cui) + ' · ' + esc(STORE.regCom) + ' · ' + (L() === 'ro' ? 'Autorizație armurier' : 'Dealer licence') + ' ' + esc(STORE.armsLicence) + '</span>' +
-        '<span class="pay-marks"><span>VISA</span><span>Mastercard</span><span>Ramburs</span></span></div>' +
+        '<span class="pay-marks"><span>VISA</span><span>Mastercard</span><span>' + (L() === 'ro' ? 'Ramburs' : 'Cash on delivery') + '</span></span></div>' +
       '</div></footer>';
   }
 
@@ -335,7 +337,7 @@
     const title = c ? c.name[L()] : S.query ? t('resultsFor', { q: esc(S.query) }) : t('allProducts');
     const sortSel = '<label class="sort"><span>' + t('sort') + '</span><select id="sort" data-sort>' + [['featured', 'sortFeatured'], ['asc', 'sortPriceAsc'], ['desc', 'sortPriceDesc'], ['new', 'sortNew']].map(([v, k]) => '<option value="' + v + '"' + (S.sort === v ? ' selected' : '') + '>' + t(k) + '</option>').join('') + '</select></label>';
     return '<div class="wrap page">' +
-      '<nav class="crumbs" aria-label="Breadcrumb"><a href="#home">' + t('home') + '</a>' + icon('right') + '<span>' + title + '</span></nav>' +
+      '<nav class="crumbs" aria-label="' + (L() === 'ro' ? 'Navigare' : 'Breadcrumb') + '"><a href="#home">' + t('home') + '</a>' + icon('right') + '<span>' + title + '</span></nav>' +
       '<div class="list-head"><div><h1>' + title + '</h1>' + (c ? '<p class="muted">' + esc(c.blurb[L()]) + '</p>' : '') + '</div>' +
         (c && c.mode === 'licensed' ? '<div class="lic-note">' + icon('doc') + '<p>' + t('mode_licensed_d') + ' <a href="#info-arme">' + t('howMore') + '</a></p></div>' : '') + '</div>' +
       (c && c.subs.length ? '<div class="sub-pills">' + c.subs.map((s) => { const on = S.filters.sub && S.filters.sub.has(s.id); return '<button class="pill' + (on ? ' on' : '') + '" aria-pressed="' + !!on + '" data-action="facet-pill" data-f="sub" data-v="' + s.id + '">' + esc(s[L()]) + '</button>'; }).join('') + '</div>' : '') +
@@ -370,7 +372,7 @@
     const related = products().filter((x) => x.cat === p.cat && x.id !== p.id).slice(0, 4);
     const sale = p.oldPrice && p.oldPrice > p.price;
     return '<div class="wrap page pdp">' +
-      '<nav class="crumbs" aria-label="Breadcrumb"><a href="#home">' + t('home') + '</a>' + icon('right') + '<a href="#c-' + c.id + '">' + esc(c.name[L()]) + '</a>' + (p.sub ? icon('right') + '<span>' + esc(subName(c.id, p.sub)) + '</span>' : '') + '</nav>' +
+      '<nav class="crumbs" aria-label="' + (L() === 'ro' ? 'Navigare' : 'Breadcrumb') + '"><a href="#home">' + t('home') + '</a>' + icon('right') + '<a href="#c-' + c.id + '">' + esc(c.name[L()]) + '</a>' + (p.sub ? icon('right') + '<span>' + esc(subName(c.id, p.sub)) + '</span>' : '') + '</nav>' +
       '<div class="pdp-grid">' + gallery +
         '<div class="pdp-info">' +
           '<p class="pdp-brand">' + esc(p.brand) + '</p><h1>' + esc(p.name) + '</h1>' +
@@ -391,7 +393,7 @@
         '</div>' +
       '</div>' +
       (related.length ? '<section class="section"><div class="section-head"><h2>' + t('related') + '</h2></div><div class="grid">' + related.map(card).join('') + '</div></section>' : '') +
-      (p.stock > 0 ? '<div class="sticky-buy show-sm"><div>' + priceHTML(p) + '</div><button class="btn btn-primary" data-action="pdp-add" data-id="' + p.id + '">' + (m === 'licensed' ? t('reserve') : t('addToCart')) + '</button></div>' : '') +
+      (p.stock > 0 ? '<div class="sticky-buy show-sm is-off"><div>' + priceHTML(p) + '</div><button class="btn btn-primary" data-action="pdp-add" data-id="' + p.id + '">' + (m === 'licensed' ? t('reserve') : t('addToCart')) + '</button></div>' : '') +
       '</div>';
   }
 
@@ -491,7 +493,7 @@
     if (S.co.phone && String(S.co.phone).replace(/[^\d]/g, '').length < 9) e.phone = 'invalidPhone';
     if (S.co.company) { req('companyName'); req('cui'); }
     if (T.ship.length && S.co.ship === 'courier') ['county', 'city', 'street'].forEach(req);
-    if (T.res.length) { req('permit'); req('permitExp'); if (!S.co.docsOk) e.docsOk = 'mustAccept'; if (T.res.some((l) => l.p.cat === 'arme' || l.p.cat === 'aer') && !S.co.authFile) e.authFile = 'required'; }
+    if (T.res.length) { if (T.res.some((l) => l.p.cat !== 'aer')) { req('permit'); req('permitExp'); } if (!S.co.docsOk) e.docsOk = 'mustAccept'; if (T.res.some((l) => l.p.cat === 'arme' || l.p.cat === 'aer') && !S.co.authFile) e.authFile = 'required'; }
     if (T.lines.some((l) => modeOf(l.p) === 'age18') && !S.co.age) e.age = 'mustAccept';
     if (!S.co.terms) e.terms = 'mustAccept';
     return e;
@@ -511,7 +513,7 @@
     const date = now.getFullYear() + '-' + p2(now.getMonth() + 1) + '-' + p2(now.getDate()) + ' ' + p2(now.getHours()) + ':' + p2(now.getMinutes());
     const name = S.co.first.trim() + ' ' + (S.co.last || '').trim().charAt(0) + '.';
     const city = T.ship.length && S.co.ship === 'courier' ? S.co.city : STORE.city;
-    if (T.ship.length) S.orders.unshift({ id: id + (T.res.length ? '-L' : ''), date, name, city, status: 'new', type: 'ship', total: T.payNow, items: T.ship.map((l) => [l.p.id, l.qty]), courier: S.co.ship === 'locker' ? 'Sameday easybox' : S.co.ship === 'pickup' ? (L() === 'ro' ? 'Ridicare magazin' : 'Store pickup') : 'Fan Courier', pay: S.co.pay, mine: true });
+    if (T.ship.length) S.orders.unshift({ id: id + (T.res.length ? '-L' : ''), date, name, city, status: 'new', type: 'ship', total: T.payNow, items: T.ship.map((l) => [l.p.id, l.qty]), courier: S.co.ship === 'locker' ? 'Sameday easybox' : S.co.ship === 'pickup' ? (L() === 'ro' ? 'Ridicare din magazin' : 'In-store collection') : 'Fan Courier', pay: S.co.pay, mine: true });
     if (T.res.length) S.orders.unshift({ id: id + (T.ship.length ? '-R' : ''), date, name, city, status: 'docs', type: 'reserve', total: T.resSub, items: T.res.map((l) => [l.p.id, l.qty]), permit: S.co.permit, docs: S.co.authFile ? [S.co.authFile] : [], mine: true });
     // decrement stock locally so the owner dashboard reflects it
     T.lines.forEach((l) => { const cur = byId(l.p.id); S.stockEdits[l.p.id] = Object.assign({}, S.stockEdits[l.p.id], { stock: Math.max(0, cur.stock - l.qty) }); });
@@ -584,12 +586,13 @@
     document.title = titleFor(r);
     updateCartCount();
     mountHero();
+    watchStickyBuy();
     if (!sameRoute) { jumpTo(0); lastRoute = r; }
     else if (focusKey) { const el = $(focusKey); if (el) el.focus({ preventScroll: true }); }
     if (isAdmin && window.BA_ADMIN && window.BA_ADMIN.after) window.BA_ADMIN.after(r);
   }
   // instant scroll (html has scroll-behavior:smooth, which would animate every route change)
-  function jumpTo(y) { const h = document.documentElement; h.style.scrollBehavior = 'auto'; window.scrollTo(0, y); h.style.scrollBehavior = ''; }
+  function jumpTo(y) { try { window.scrollTo({ top: y, left: 0, behavior: 'instant' }); } catch (e) { window.scrollTo(0, y); } }
   // a selector that finds "the same" control after a re-render, so keyboard users keep their place
   function focusSelector(el) {
     if (!el || el === document.body || !el.closest || !el.closest('#app')) return null;
@@ -607,10 +610,20 @@
     if (r.startsWith('admin')) return t('owner') + ' · Bistrița Alpină';
     return 'Bistrița Alpină';
   }
+  // the mobile sticky buy bar shows whenever the main buy button is off-screen, so the action is never doubled
+  let stickyObs = null;
+  function watchStickyBuy() {
+    if (stickyObs) { stickyObs.disconnect(); stickyObs = null; }
+    const bar = $('.sticky-buy'), row = $('.buy-row');
+    if (!bar || !row || !('IntersectionObserver' in window)) { if (bar) bar.classList.remove('is-off'); return; }
+    stickyObs = new IntersectionObserver(([e]) => { bar.classList.toggle('is-off', e.isIntersecting); });
+    stickyObs.observe(row);
+  }
   function mountHero() {
     const slots = $$('[data-hero]');
     if (!slots.length) return;
     const put = () => slots.forEach((s) => { s.innerHTML = heroSVG || ''; });
+    if (heroSVG === null && window.BA_HERO) heroSVG = window.BA_HERO;
     if (heroSVG !== null) return put();
     fetch('assets/hero.svg').then((r) => (r.ok ? r.text() : '')).then((txt) => { heroSVG = txt.replace(/<\?xml[^>]*>/, ''); put(); }).catch(() => { heroSVG = ''; });
   }
@@ -704,7 +717,7 @@
     else if ('instock' in el.dataset) { S.inStock = el.checked; refreshListing(); }
     else if ('sort' in el.dataset) { S.sort = el.value; refreshListing(); }
     else if (el.dataset.coRadio) { S.co[el.dataset.coRadio] = el.value; delete S.coErrors[el.dataset.coRadio]; render(); }
-    else if (el.dataset.coCheck) { S.co[el.dataset.coCheck] = el.checked; delete S.coErrors[el.dataset.coCheck]; if (el.dataset.coCheck === 'company' || S.coErrors && Object.keys(S.coErrors).length) render(); }
+    else if (el.dataset.coCheck) { const k = el.dataset.coCheck, had = k in S.coErrors; S.co[k] = el.checked; delete S.coErrors[k]; if (k === 'company' || had) render(); }
     else if (el.dataset.coFile) { S.co[el.dataset.coFile] = el.files[0] ? el.files[0].name : ''; delete S.coErrors[el.dataset.coFile]; render(); }
     else if (el.dataset.co && el.tagName === 'SELECT') { S.co[el.dataset.co] = el.value; if (S.coErrors[el.dataset.co]) { delete S.coErrors[el.dataset.co]; render(); } }
     else if (window.BA_ADMIN && window.BA_ADMIN.onChange) window.BA_ADMIN.onChange(el, ev);
@@ -739,7 +752,7 @@
     else if (f === 'withdraw') {
       const o = $('#w-order'), e = $('#w-email');
       if (!o.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e.value)) { [o, e].forEach((i) => i.setAttribute('aria-invalid', String(!i.value.trim() || (i === e && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e.value))))); return; }
-      ev.target.outerHTML = '<p class="note ok">' + icon('check') + (L() === 'ro' ? 'Am înregistrat cererea de retragere pentru comanda ' + esc(o.value) + '. Confirmarea și instrucțiunile de retur vin pe e-mail.' : 'Withdrawal request recorded for order ' + esc(o.value) + '. Confirmation and return instructions are on their way by email.') + '</p>';
+      ev.target.outerHTML = '<p class="note ok">' + icon('check') + (L() === 'ro' ? 'Am înregistrat cererea de retragere pentru comanda ' + esc(o.value) + '. Îți trimitem pe e-mail confirmarea și instrucțiunile de retur.' : 'Withdrawal request recorded for order ' + esc(o.value) + '. Confirmation and return instructions are on their way by email.') + '</p>';
     }
     else if (f === 'notify') { ev.target.outerHTML = '<p class="note ok">' + icon('check') + t('notifyDone') + '</p>'; }
     else if (f === 'checkout') placeOrder();
@@ -760,7 +773,7 @@
   });
 
   // shared API for the owner dashboard
-  window.BA = { S, D, t, fmt, esc, icon, pimg, store, byId, allProducts, products, cat, catName, subName, modeOf, render, toast, val };
+  window.BA = { asset, S, D, t, fmt, esc, icon, pimg, store, byId, allProducts, products, cat, catName, subName, modeOf, render, toast, val };
 
   render();
 })();
