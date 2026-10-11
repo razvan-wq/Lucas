@@ -39,7 +39,8 @@
       noOrders: 'Nicio comandă în această listă.',
       // stock
       stockTitle: 'Stoc', searchStock: 'Caută după nume, marcă sau cod', product: 'Produs', category: 'Categorie', price: 'Preț', qty: 'Stoc', online: 'Online',
-      low: 'stoc redus', saved: 'Salvat'
+      low: 'stoc redus', saved: 'Salvat',
+      specLabel: 'Denumire specificație', specValue: 'Valoare', removeRow: 'Șterge rândul', less: 'Scade stocul', more: 'Crește stocul', compareL: 'Comparație imagine'
     },
     en: {
       title: 'Owner dashboard', viewShop: 'View shop', demo: 'Demo data',
@@ -75,7 +76,8 @@
       approved: 'The customer gets an SMS: reservation ready to collect.', rejected: 'The customer gets an email with the reason.',
       noOrders: 'No orders in this list.',
       stockTitle: 'Stock', searchStock: 'Search by name, brand or code', product: 'Product', category: 'Category', price: 'Price', qty: 'Stock', online: 'Online',
-      low: 'low stock', saved: 'Saved'
+      low: 'low stock', saved: 'Saved',
+      specLabel: 'Specification name', specValue: 'Value', removeRow: 'Remove row', less: 'Decrease stock', more: 'Increase stock', compareL: 'Image comparison'
     }
   };
   const A = { step: 'capture', orderFilter: 'all', open: null, stockQ: '', compare: 'after', progress: 0, f: null, errors: {} };
@@ -101,7 +103,7 @@
     const nDocs = S.orders.filter((o) => o.status === 'docs').length;
     const low = allProducts().filter((p) => p.stock <= 1);
     const open = S.orders.filter((o) => ['new', 'ready', 'docs', 'pickup'].includes(o.status)).reduce((a, o) => a + o.total, 0);
-    const tile = (n, k, href, tone) => '<a class="kpi ' + (tone || '') + '" href="' + href + '"><b>' + n + '</b><span>' + x(k) + '</span></a>';
+    const tile = (n, k, href, tone, f) => '<a class="kpi ' + (tone || '') + '" href="' + href + '" data-action="adm-goto" data-f="' + f + '"><b>' + n + '</b><span>' + x(k) + '</span></a>';
     const todos = [];
     const ro = S.lang === 'ro';
     const pl = (n, one, many, manyDe) => (n === 1 ? one : ro && (n === 0 || n % 100 >= 20 || n % 100 === 0) && manyDe ? manyDe : many);
@@ -110,7 +112,7 @@
     if (low.length) todos.push(['alert', x('todoLow', { n: low.length, prod: ro ? pl(low.length, 'produs', 'produse', 'de produse') : pl(low.length, 'product', 'products') }), 'stock']);
     return '<div class="adm-head"><h1>' + x('hello') + '</h1><p class="muted">' + x('todayLead') + '</p></div>' +
       '<a class="quick-add" href="#admin-add"><span class="qa-ic">' + icon('camera') + '</span><span><b>' + x('quickAdd') + '</b><small>' + x('quickAddD') + '</small></span><span class="btn btn-primary sm">' + x('start') + icon('arrow') + '</span></a>' +
-      '<div class="kpis">' + tile(nNew, 'kNew', '#admin-orders', nNew ? 'warn' : '') + tile(nDocs, 'kDocs', '#admin-orders', nDocs ? 'crit' : '') + tile(low.length, 'kLow', '#admin-stock', low.length ? 'warn' : '') + tile(fmt(open), 'kOpen', '#admin-orders') + '</div>' +
+      '<div class="kpis">' + tile(nNew, 'kNew', '#admin-orders', nNew ? 'warn' : '', 'new') + tile(nDocs, 'kDocs', '#admin-orders', nDocs ? 'crit' : '', 'docs') + tile(low.length, 'kLow', '#admin-stock', low.length ? 'warn' : '', 'stock') + tile(fmt(open), 'kOpen', '#admin-orders', '', 'all') + '</div>' +
       '<section class="panel"><h2>' + x('todo') + '</h2>' + (todos.length ? '<ul class="todo">' + todos.map(([ic, txt, f]) => '<li><button data-action="adm-goto" data-f="' + f + '">' + icon(ic) + '<span>' + txt + '</span>' + icon('right') + '</button></li>').join('') + '</ul>' : '<p class="muted">' + x('allDone') + '</p>') + '</section>';
   }
 
@@ -140,14 +142,14 @@
     // review
     const f = A.f;
     const c = B().cat(f.cat);
-    const err = (k) => (A.errors[k] ? '<p class="err">' + icon('alert') + A.errors[k] + '</p>' : '');
+    const err = (k) => (A.errors[k] ? '<p class="err" id="afe-' + k + '">' + icon('alert') + x(A.errors[k]) + '</p>' : '');
     const ai = '<span class="ai-tag">' + icon('spark') + x('aiFilled') + '</span>';
-    const inp = (k, label, type, tag, extra) => '<div class="field' + (A.errors[k] ? ' has-err' : '') + '"><label for="af-' + k + '">' + label + (tag ? ai : '') + '</label><input id="af-' + k + '" data-af="' + k + '" type="' + (type || 'text') + '"' + (type === 'number' ? ' inputmode="decimal" min="0"' : '') + ' value="' + esc(f[k] == null ? '' : f[k]) + '"' + (extra || '') + '>' + err(k) + '</div>';
+    const inp = (k, label, type, tag, extra) => '<div class="field' + (A.errors[k] ? ' has-err' : '') + '"><label for="af-' + k + '">' + label + (tag ? ai : '') + '</label><input id="af-' + k + '" data-af="' + k + '" type="' + (type || 'text') + '"' + (type === 'number' ? ' inputmode="decimal" min="0"' : '') + ' value="' + esc(f[k] == null ? '' : f[k]) + '"' + (A.errors[k] ? ' aria-invalid="true" aria-describedby="afe-' + k + '"' : '') + (extra || '') + '>' + err(k) + '</div>';
     const modeName = { licensed: B().t('mode_licensed_t'), age18: B().t('mode_age18_t'), ship: B().t('mode_ship_t') }[c.mode];
     return '<div class="adm-head"><h1>' + x('review') + '</h1><p class="muted">' + x('reviewLead') + '</p></div>' +
       '<form class="review" data-form="adm-publish" novalidate>' +
         '<div class="rv-media"><div class="rv-img">' + '<img src="' + (A.compare === 'after' ? A.processed : A.orig) + '" alt="">' + '</div>' +
-          '<div class="seg" role="tablist"><button type="button" role="tab" aria-selected="' + (A.compare === 'before') + '" class="' + (A.compare === 'before' ? 'on' : '') + '" data-action="adm-compare" data-v="before">' + x('before') + '</button><button type="button" role="tab" aria-selected="' + (A.compare === 'after') + '" class="' + (A.compare === 'after' ? 'on' : '') + '" data-action="adm-compare" data-v="after">' + icon('spark') + x('after') + '</button></div>' +
+          '<div class="seg" role="tablist" aria-label="' + x('compareL') + '"><button type="button" role="tab" aria-selected="' + (A.compare === 'before') + '" class="' + (A.compare === 'before' ? 'on' : '') + '" data-action="adm-compare" data-v="before">' + x('before') + '</button><button type="button" role="tab" aria-selected="' + (A.compare === 'after') + '" class="' + (A.compare === 'after' ? 'on' : '') + '" data-action="adm-compare" data-v="after">' + icon('spark') + x('after') + '</button></div>' +
           '<div class="mode-box m-' + c.mode + ' sm">' + icon(c.mode === 'licensed' ? 'doc' : c.mode === 'age18' ? 'shield' : 'truck') + '<div><b>' + x('fMode') + ': ' + modeName + '</b></div></div>' +
         '</div>' +
         '<div class="rv-fields">' +
@@ -161,7 +163,7 @@
           '<div class="field"><label for="af-descRo">' + x('fDescRo') + ai + '</label><textarea id="af-descRo" data-af="descRo" rows="4">' + esc(f.descRo) + '</textarea></div>' +
           '<div class="field"><label for="af-descEn">' + x('fDescEn') + ai + '</label><textarea id="af-descEn" data-af="descEn" rows="4">' + esc(f.descEn) + '</textarea></div>' +
           '<button type="button" class="link-btn" data-action="adm-regen">' + icon('spark') + x('regen') + '</button>' +
-          '<fieldset class="specs-edit"><legend>' + x('fSpecs') + ai + '</legend>' + f.specs.map((s, i) => '<div class="spec-row"><input aria-label="label" data-spec="' + i + '" data-part="0" value="' + esc(s[0]) + '"><input aria-label="value" data-spec="' + i + '" data-part="1" value="' + esc(s[1]) + '"><button type="button" class="icon-btn sm" data-action="adm-spec-del" data-i="' + i + '" aria-label="remove">' + icon('x') + '</button></div>').join('') +
+          '<fieldset class="specs-edit"><legend>' + x('fSpecs') + ai + '</legend>' + f.specs.map((s, i) => '<div class="spec-row"><input aria-label="' + x('specLabel') + '" data-spec="' + i + '" data-part="0" value="' + esc(s[0]) + '"><input aria-label="' + x('specValue') + '" data-spec="' + i + '" data-part="1" value="' + esc(s[1]) + '"><button type="button" class="icon-btn sm" data-action="adm-spec-del" data-i="' + i + '" aria-label="' + x('removeRow') + '">' + icon('x') + '</button></div>').join('') +
             '<button type="button" class="link-btn" data-action="adm-spec-add">' + icon('plus') + x('addSpec') + '</button></fieldset>' +
           '<label class="toggle"><input type="checkbox" id="af-online" data-af-check="online"' + (f.online ? ' checked' : '') + '><span class="tg"></span>' + x('fOnline') + '</label>' +
           '<div class="rv-actions"><button type="button" class="btn btn-outline" data-action="adm-draft">' + x('saveDraft') + '</button><button class="btn btn-primary">' + icon('upload') + x('publish') + '</button></div>' +
@@ -230,18 +232,18 @@
 
   function publish() {
     const f = A.f, e = {};
-    if (!String(f.name || '').trim()) e.name = x('needName');
-    if (!(parseFloat(f.price) > 0)) e.price = x('needPrice');
-    if (String(f.stock).trim() === '' || isNaN(parseInt(f.stock, 10))) e.stock = x('needStock');
+    if (!String(f.name || '').trim()) e.name = 'needName';
+    if (!(parseFloat(f.price) > 0)) e.price = 'needPrice';
+    if (String(f.stock).trim() === '' || isNaN(parseInt(f.stock, 10)) || parseInt(f.stock, 10) < 0) e.stock = 'needStock';
     A.errors = e;
     if (Object.keys(e).length) { B().render(); const el = document.querySelector('.review .has-err input'); if (el) { el.focus(); el.scrollIntoView({ block: 'center' }); } return; }
     const { S, store } = B();
-    const slug = (f.brand + '-' + f.name).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-' + Date.now().toString(36).slice(-4);
+    const slug = ((f.brand || 'ba') + '-' + f.name).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-' + Date.now().toString(36).slice(-4);
     const price = parseFloat(f.price), old = parseFloat(f.oldPrice);
     const p = {
-      id: slug, cat: f.cat, sub: f.sub || undefined, brand: f.brand || 'Bistrița Alpină', name: f.name, photo: A.processed, img: 'box',
+      id: slug, cat: f.cat, sub: f.sub || undefined, brand: f.brand.trim() || 'Bistrița Alpină', name: f.name.trim(), photo: A.processed, img: (B().cat(f.cat) || {}).img || 'backpack',
       price, oldPrice: old > price ? old : undefined, lowest30: old > price ? old : undefined, stock: parseInt(f.stock, 10), online: !!f.online,
-      badges: ['new'], attrs: {}, specs: f.specs.filter((s) => s[0] && s[1]).map((s) => ['_raw', s[0] + ': ' + s[1]]),
+      badges: ['new'], attrs: {}, specs: f.specs.filter((s) => s[0].trim() && s[1].trim()).map((s) => [s[0].trim(), s[1].trim()]),
       desc: { ro: f.descRo, en: f.descEn }
     };
     S.added.unshift(p);
@@ -283,19 +285,25 @@
   }
 
   // ——— stock
-  function vStock() {
+  function stockRows() {
     const { allProducts, fmt, icon, esc, catName } = B();
-    const q = A.stockQ.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+    const q = A.stockQ.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim();
     const list = allProducts().filter((p) => !q || (p.brand + ' ' + p.name + ' ' + p.id).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').includes(q));
+    return list.map((p) => '<tr class="' + (p.stock <= 1 ? 'low' : '') + '"><td><div class="st-prod"><span class="st-img">' + B().pimg(p) + '</span><span><small>' + esc(p.brand) + '</small>' + esc(p.name) + (p.stock <= 1 ? '<em class="low-tag">' + x('low') + '</em>' : '') + '</span></div></td>' +
+        '<td class="hide-sm">' + esc(catName(p.cat)) + '</td><td class="num">' + fmt(p.price) + '</td>' +
+        '<td><div class="qty sm"><button data-action="adm-stock" data-id="' + p.id + '" data-d="-1" aria-label="' + x('less') + ': ' + esc(p.name) + '">' + icon('minus') + '</button><span>' + p.stock + '</span><button data-action="adm-stock" data-id="' + p.id + '" data-d="1" aria-label="' + x('more') + ': ' + esc(p.name) + '">' + icon('plus') + '</button></div></td>' +
+        '<td><label class="toggle sm"><input type="checkbox" data-adm-online="' + p.id + '"' + (p.online !== false ? ' checked' : '') + ' aria-label="' + x('online') + ': ' + esc(p.name) + '"><span class="tg"></span></label></td></tr>').join('');
+  }
+  function vStock() {
+    const { icon, esc } = B();
     return '<div class="adm-head"><h1>' + x('stockTitle') + '</h1></div>' +
       '<div class="stock-search">' + icon('search') + '<label class="sr" for="adm-sq">' + x('searchStock') + '</label><input id="adm-sq" type="search" placeholder="' + x('searchStock') + '" value="' + esc(A.stockQ) + '" data-adm-sq></div>' +
-      '<div class="table-wrap"><table class="stock-table"><thead><tr><th>' + x('product') + '</th><th class="hide-sm">' + x('category') + '</th><th class="num">' + x('price') + '</th><th>' + x('qty') + '</th><th>' + x('online') + '</th></tr></thead><tbody>' +
-      list.map((p) => '<tr class="' + (p.stock <= 1 ? 'low' : '') + '"><td><div class="st-prod"><span class="st-img">' + B().pimg(p) + '</span><span><small>' + esc(p.brand) + '</small>' + esc(p.name) + (p.stock <= 1 ? '<em class="low-tag">' + x('low') + '</em>' : '') + '</span></div></td>' +
-        '<td class="hide-sm">' + esc(catName(p.cat)) + '</td><td class="num">' + fmt(p.price) + '</td>' +
-        '<td><div class="qty sm"><button data-action="adm-stock" data-id="' + p.id + '" data-d="-1" aria-label="-">' + icon('minus') + '</button><span>' + p.stock + '</span><button data-action="adm-stock" data-id="' + p.id + '" data-d="1" aria-label="+">' + icon('plus') + '</button></div></td>' +
-        '<td><label class="toggle sm"><input type="checkbox" data-adm-online="' + p.id + '"' + (p.online !== false ? ' checked' : '') + ' aria-label="' + x('online') + '"><span class="tg"></span></label></td></tr>').join('') +
+      '<div class="table-wrap"><table class="stock-table"><thead><tr><th>' + x('product') + '</th><th class="hide-sm">' + x('category') + '</th><th class="num">' + x('price') + '</th><th>' + x('qty') + '</th><th>' + x('online') + '</th></tr></thead><tbody>' + stockRows() +
       '</tbody></table></div>';
   }
+
+  // coming back to "Add product" after a publish starts a fresh capture (runs before app.js re-renders)
+  window.addEventListener('hashchange', () => { if (location.hash === '#admin-add' && A.step === 'done') A.step = 'capture'; });
 
   // ——— public API used by app.js
   window.BA_ADMIN = {
@@ -313,7 +321,7 @@
         'adm-spec-add': () => { A.f.specs.push(['', '']); B().render(); },
         'adm-spec-del': () => { A.f.specs.splice(+el.dataset.i, 1); B().render(); },
         'adm-draft': () => toast(x('draftSaved')),
-        'adm-goto': () => { const f = el.dataset.f; if (f === 'stock') location.hash = '#admin-stock'; else { A.orderFilter = f; location.hash = '#admin-orders'; } },
+        'adm-goto': () => { ev.preventDefault(); const f = el.dataset.f; if (f === 'stock') location.hash = '#admin-stock'; else { A.orderFilter = f; A.open = null; location.hash = '#admin-orders'; } },
         'adm-of': () => { A.orderFilter = el.dataset.f; A.open = null; B().render(); },
         'adm-open': () => { A.open = A.open === el.dataset.id ? null : el.dataset.id; B().render(); },
         'adm-st': () => {
@@ -343,7 +351,7 @@
     onInput(el) {
       if (el.dataset.af && A.f) { A.f[el.dataset.af] = el.value; if (A.errors[el.dataset.af]) { delete A.errors[el.dataset.af]; const fl = el.closest('.field'); if (fl) { fl.classList.remove('has-err'); const e = fl.querySelector('.err'); if (e) e.remove(); } } }
       else if (el.dataset.spec != null && A.f) A.f.specs[+el.dataset.spec][+el.dataset.part] = el.value;
-      else if ('admSq' in el.dataset) { A.stockQ = el.value; const pos = el.selectionStart; B().render(); const n = document.getElementById('adm-sq'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } }
+      else if ('admSq' in el.dataset) { A.stockQ = el.value; const tb = document.querySelector('.stock-table tbody'); if (tb) tb.innerHTML = stockRows(); }
     },
     onSubmit(form) { if (form.dataset.form === 'adm-publish') publish(); },
     after() {}

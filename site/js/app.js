@@ -53,6 +53,10 @@
   const catName = (id) => (cat(id) ? cat(id).name[L()] : id);
   const subName = (c, sid) => { const s = (cat(c) || { subs: [] }).subs.find((x) => x.id === sid); return s ? s[L()] : sid; };
   const val = (v) => { const k = 'v_' + v; const r = t(k); return r === k ? v : r; };
+  // search: both languages + sub-category, diacritic-insensitive; "luneta" also finds "lunete"
+  const haystack = (p, withDesc) => { const c = cat(p.cat) || { name: {}, subs: [] }; const s = c.subs.find((x) => x.id === p.sub) || {}; return norm([p.brand, p.name, c.name.ro, c.name.en, s.ro, s.en, Object.values(p.attrs || {}).join(' '), withDesc ? (p.desc || {})[L()] : ''].join(' ')); };
+  const hasWord = (hay, w) => hay.includes(w) || (w.length > 4 && hay.includes(w.replace(/[aeiou]+$/, '')));
+  const matches = (hay, q) => norm(q).split(/\s+/).filter(Boolean).every((w) => hasWord(hay, w));
   const facetVal = (p, f) => (f === 'sub' ? p.sub : f === 'brand' ? p.brand : (p.attrs || {})[f]);
   const facetLabel = (c, f, v) => (f === 'sub' ? subName(c, v) : (['action', 'bulletType', 'illuminated', 'season', 'membrane', 'height', 'steel'].includes(f) ? val(v) : v));
 
@@ -111,7 +115,8 @@
   function saveCart() { store.set('cart', S.cart); updateCartCount(); }
   function addToCart(id, qty, size) {
     const ex = S.cart.find((i) => i.id === id && (i.size || '') === (size || ''));
-    if (ex) ex.qty += qty; else S.cart.push({ id, qty, size: size || '' });
+    const p = byId(id); const max = p && p.stock > 0 ? p.stock : 99;
+    if (ex) ex.qty = Math.min(max, ex.qty + qty); else S.cart.push({ id, qty: Math.min(max, qty), size: size || '' });
     saveCart();
   }
   function cartLines() { return S.cart.map((i) => ({ ...i, p: byId(i.id) })).filter((i) => i.p); }
@@ -178,7 +183,7 @@
     const pals = [['ardezie', ['#2E3438', '#8C6421', '#F2F3F0']], ['brad', ['#1E3327', '#C2410C', '#F0F2EC']], ['ghetar', ['#1B2A38', '#A4522B', '#EDF1F3']]];
     return '<div class="palette-dock" id="palette-dock"><button class="palette-toggle" data-action="toggle-palette" aria-expanded="false">' + icon('palette') + '<span>' + t('palette') + '</span></button>' +
       '<div class="palette-panel" hidden><p class="palette-title">' + t('palette') + '</p>' + pals.map(([id, c]) =>
-        '<button class="pal-opt' + (S.palette === id ? ' on' : '') + '" data-action="palette" data-pal="' + id + '"><span class="sw">' + c.map((x) => '<i style="background:' + x + '"></i>').join('') + '</span>' + t('pal_' + id) + '</button>').join('') +
+        '<button class="pal-opt' + (S.palette === id ? ' on' : '') + '" aria-pressed="' + (S.palette === id) + '" data-action="palette" data-pal="' + id + '"><span class="sw">' + c.map((x) => '<i style="background:' + x + '"></i>').join('') + '</span>' + t('pal_' + id) + '</button>').join('') +
       '</div></div>';
   }
 
@@ -274,6 +279,7 @@
   function filteredList(base, c) {
     let list = base;
     for (const f in S.filters) {
+      if (f === '_mode') continue;
       const set = S.filters[f];
       if (set && set.size) list = list.filter((p) => set.has(facetVal(p, f)));
     }
@@ -322,8 +328,7 @@
     let base;
     if (c) base = products().filter((p) => p.cat === c.id);
     else if (S.query) {
-      const q = norm(S.query).split(/\s+/).filter(Boolean);
-      base = products().filter((p) => { const hay = norm([p.brand, p.name, catName(p.cat), subName(p.cat, p.sub), Object.values(p.attrs || {}).join(' '), (p.desc || {})[L()]].join(' ')); return q.every((w) => hay.includes(w)); });
+      base = products().filter((p) => matches(haystack(p, true), S.query));
     } else base = products();
     const facets = c ? c.facets : ['brand'];
     const list = filteredList(base, c);
@@ -333,7 +338,7 @@
       '<nav class="crumbs" aria-label="Breadcrumb"><a href="#home">' + t('home') + '</a>' + icon('right') + '<span>' + title + '</span></nav>' +
       '<div class="list-head"><div><h1>' + title + '</h1>' + (c ? '<p class="muted">' + esc(c.blurb[L()]) + '</p>' : '') + '</div>' +
         (c && c.mode === 'licensed' ? '<div class="lic-note">' + icon('doc') + '<p>' + t('mode_licensed_d') + ' <a href="#info-arme">' + t('howMore') + '</a></p></div>' : '') + '</div>' +
-      (c && c.subs.length ? '<div class="sub-pills">' + c.subs.map((s) => { const on = S.filters.sub && S.filters.sub.has(s.id); return '<button class="pill' + (on ? ' on' : '') + '" data-action="facet-pill" data-f="sub" data-v="' + s.id + '">' + esc(s[L()]) + '</button>'; }).join('') + '</div>' : '') +
+      (c && c.subs.length ? '<div class="sub-pills">' + c.subs.map((s) => { const on = S.filters.sub && S.filters.sub.has(s.id); return '<button class="pill' + (on ? ' on' : '') + '" aria-pressed="' + !!on + '" data-action="facet-pill" data-f="sub" data-v="' + s.id + '">' + esc(s[L()]) + '</button>'; }).join('') + '</div>' : '') +
       '<div class="list-layout">' +
         '<aside class="filters' + (S.mobileFilters ? ' open' : '') + '" aria-label="' + t('filters') + '"><div class="filters-head"><h2>' + t('filters') + '</h2><button class="icon-btn show-md" data-action="close-filters" aria-label="' + t('dismiss') + '">' + icon('x') + '</button></div><div class="filters-body">' + facetsHTML(base, c && c.id, facets) + '</div><div class="filters-foot show-md"><button class="btn btn-primary block" data-action="close-filters">' + t('showResults', { n: list.length }) + '</button></div></aside>' +
         '<div class="list-main"><div class="toolbar"><button class="btn btn-outline sm show-md" data-action="open-filters">' + icon('filter') + t('filters') + '</button><span class="muted count-txt">' + list.length + ' ' + (list.length === 1 ? t('product') : t('products')) + '</span>' + sortSel + '</div>' +
@@ -357,10 +362,11 @@
     const modeBox = '<div class="mode-box m-' + m + '">' + icon(m === 'licensed' ? 'doc' : m === 'age18' ? 'shield' : 'truck') + '<div><b>' + t('mode_' + m + '_t') + '</b><p>' + t('mode_' + m + '_d') + '</p></div></div>';
     const sizes = p.variants ? '<div class="field"><span class="label">' + t('size') + (S.pdpSize ? ': <b>' + esc(S.pdpSize) + '</b>' : '') + '</span><div class="sizes" role="radiogroup" aria-label="' + t('size') + '">' + p.variants.map((v) => '<button role="radio" aria-checked="' + (S.pdpSize === v) + '" class="size' + (S.pdpSize === v ? ' on' : '') + '" data-action="size" data-v="' + esc(v) + '">' + esc(v) + '</button>').join('') + '</div><p class="err" id="size-err" hidden>' + t('chooseSize') + '</p></div>' : '';
     const buy = p.stock > 0
-      ? '<div class="buy-row"><div class="qty" aria-label="' + t('qty') + '"><button data-action="qty" data-d="-1" aria-label="-">' + icon('minus') + '</button><input id="pdp-qty" type="number" min="1" max="' + p.stock + '" value="' + S.pdpQty + '" inputmode="numeric" aria-label="' + t('qty') + '"><button data-action="qty" data-d="1" aria-label="+">' + icon('plus') + '</button></div>' +
+      ? '<div class="buy-row"><div class="qty" role="group" aria-label="' + t('qty') + '"><button data-action="qty" data-d="-1" aria-label="-">' + icon('minus') + '</button><input id="pdp-qty" type="number" min="1" max="' + p.stock + '" value="' + S.pdpQty + '" inputmode="numeric" aria-label="' + t('qty') + '"><button data-action="qty" data-d="1" aria-label="+">' + icon('plus') + '</button></div>' +
         '<button class="btn btn-primary grow" data-action="pdp-add" data-id="' + p.id + '">' + icon(m === 'licensed' ? 'doc' : 'bag') + (m === 'licensed' ? t('reserve') : t('addToCart')) + '</button></div>'
       : '<form class="notify" data-form="notify"><label class="sr" for="notify-email">' + t('emailL') + '</label><input id="notify-email" type="email" required placeholder="' + t('emailL') + '"><button class="btn btn-outline">' + t('notifyMe') + '</button></form>';
-    const specRows = (p.specs || []).map(([k, v]) => '<tr><th>' + t('s_' + k) + '</th><td>' + esc(val(v)) + '</td></tr>').join('');
+    const specLabel = (k) => { const r = t('s_' + k); return r === 's_' + k ? esc(k) : r; };
+    const specRows = (p.specs || []).map(([k, v]) => { if (k === '_raw') { const i = String(v).indexOf(': '); k = String(v).slice(0, i); v = String(v).slice(i + 2); } return '<tr><th>' + specLabel(k) + '</th><td>' + esc(val(v)) + '</td></tr>'; }).join('');
     const related = products().filter((x) => x.cat === p.cat && x.id !== p.id).slice(0, 4);
     const sale = p.oldPrice && p.oldPrice > p.price;
     return '<div class="wrap page pdp">' +
@@ -391,7 +397,7 @@
 
   // cart drawer
   function cartLineHTML(l) {
-    return '<li class="cl"><a href="#p-' + l.p.id + '" class="cl-img">' + pimg(l.p) + '</a><div class="cl-info"><a href="#p-' + l.p.id + '" class="cl-name"><b>' + esc(l.p.brand) + '</b> ' + esc(l.p.name) + '</a>' + (l.size ? '<span class="muted">' + t('size') + ': ' + esc(l.size) + '</span>' : '') +
+    return '<li class="cl"><a href="#p-' + l.p.id + '" class="cl-img" data-action="close-cart-nav" tabindex="-1" aria-hidden="true">' + pimg(l.p) + '</a><div class="cl-info"><a href="#p-' + l.p.id + '" class="cl-name" data-action="close-cart-nav"><b>' + esc(l.p.brand) + '</b> ' + esc(l.p.name) + '</a>' + (l.size ? '<span class="muted">' + t('size') + ': ' + esc(l.size) + '</span>' : '') +
       '<div class="cl-row"><div class="qty sm"><button data-action="cart-qty" data-k="' + esc(cartKey(l)) + '" data-d="-1" aria-label="-">' + icon('minus') + '</button><span>' + l.qty + '</span><button data-action="cart-qty" data-k="' + esc(cartKey(l)) + '" data-d="1" aria-label="+">' + icon('plus') + '</button></div><span class="cl-price">' + fmt(l.p.price * l.qty) + '</span></div>' +
       '<button class="link-btn sm" data-action="cart-remove" data-k="' + esc(cartKey(l)) + '">' + t('remove') + '</button></div></li>';
   }
@@ -420,16 +426,17 @@
     const v = S.co[id] == null ? '' : S.co[id];
     const err = S.coErrors[id];
     const input = opts.type === 'select'
-      ? '<select id="co-' + id + '" data-co="' + id + '"' + (err ? ' aria-invalid="true"' : '') + '><option value="">' + esc(opts.placeholder || '') + '</option>' + opts.options.map((o) => '<option' + (v === o ? ' selected' : '') + '>' + esc(o) + '</option>').join('') + '</select>'
+      ? '<select id="co-' + id + '" data-co="' + id + '"' + (err ? ' aria-invalid="true" aria-describedby="e-' + id + '"' : '') + '><option value="">' + esc(opts.placeholder || '') + '</option>' + opts.options.map((o) => '<option' + (v === o ? ' selected' : '') + '>' + esc(o) + '</option>').join('') + '</select>'
       : '<input id="co-' + id + '" data-co="' + id + '" type="' + (opts.type || 'text') + '"' + (opts.ac ? ' autocomplete="' + opts.ac + '"' : '') + (opts.im ? ' inputmode="' + opts.im + '"' : '') + ' value="' + esc(v) + '"' + (err ? ' aria-invalid="true" aria-describedby="e-' + id + '"' : '') + '>';
-    return '<div class="field' + (opts.wide ? ' wide' : '') + (err ? ' has-err' : '') + '"><label for="co-' + id + '">' + label + (opts.optional ? '' : '') + '</label>' + input + (opts.hint && !err ? '<p class="hint">' + opts.hint + '</p>' : '') + (err ? '<p class="err" id="e-' + id + '">' + icon('alert') + err + '</p>' : '') + '</div>';
+    return '<div class="field' + (opts.wide ? ' wide' : '') + (err ? ' has-err' : '') + '"><label for="co-' + id + '">' + label + (opts.optional ? '' : '') + '</label>' + input + (opts.hint && !err ? '<p class="hint">' + opts.hint + '</p>' : '') + (err ? '<p class="err" id="e-' + id + '">' + icon('alert') + t(err) + '</p>' : '') + '</div>';
   }
   function radioCard(name, value, title, desc, ic, extra) {
     const on = S.co[name] === value;
     return '<label class="rcard' + (on ? ' on' : '') + '"><input type="radio" name="' + name + '" value="' + value + '" data-co-radio="' + name + '"' + (on ? ' checked' : '') + '>' + icon(ic) + '<span class="rc-txt"><b>' + title + '</b><small>' + desc + '</small></span>' + (extra ? '<span class="rc-extra">' + extra + '</span>' : '') + '</label>';
   }
-  function checkbox(id, html, err) {
-    return '<label class="check big' + (S.coErrors[id] ? ' has-err' : '') + '"><input type="checkbox" id="co-' + id + '" data-co-check="' + id + '"' + (S.co[id] ? ' checked' : '') + '><span>' + html + '</span></label>' + (S.coErrors[id] ? '<p class="err">' + icon('alert') + S.coErrors[id] + '</p>' : '');
+  function checkbox(id, html) {
+    const err = S.coErrors[id];
+    return '<label class="check big' + (err ? ' has-err' : '') + '"><input type="checkbox" id="co-' + id + '" data-co-check="' + id + '"' + (S.co[id] ? ' checked' : '') + (err ? ' aria-invalid="true" aria-describedby="e-' + id + '"' : '') + '><span>' + html + '</span></label>' + (err ? '<p class="err" id="e-' + id + '">' + icon('alert') + t(err) + '</p>' : '');
   }
   function viewCheckout() {
     const T = cartTotals(S.co.ship);
@@ -454,7 +461,7 @@
       (S.co.ship === 'pickup' ? '<div class="locker-pick">' + icon('pin') + '<div><b>' + esc(STORE.street) + ', ' + esc(STORE.city) + '</b><p class="muted">' + esc(STORE.hours[L()]) + '</p></div></div>' : '')) : '';
     const docs = hasRes ? step(t('stepDocs'), '<p class="note">' + icon('doc') + t('docsIntro') + '</p><div class="form-grid">' +
       field('permit', t('permitNo')) + field('permitExp', t('permitExp'), { type: 'date' }) +
-      '<div class="field wide' + (S.coErrors.authFile ? ' has-err' : '') + '"><span class="label">' + t('authUpload') + '</span><label class="file"><input type="file" id="co-authFile" accept="image/*,application/pdf" data-co-file="authFile">' + icon('upload') + '<span>' + (S.co.authFile ? esc(S.co.authFile) : t('chooseFile')) + '</span></label><p class="hint">' + t('authUploadHint') + '</p>' + (S.coErrors.authFile ? '<p class="err">' + icon('alert') + S.coErrors.authFile + '</p>' : '') + '</div>' +
+      '<div class="field wide' + (S.coErrors.authFile ? ' has-err' : '') + '"><span class="label">' + t('authUpload') + '</span><label class="file"><input type="file" id="co-authFile" accept="image/*,application/pdf" data-co-file="authFile" aria-label="' + esc(t('authUpload')) + '"' + (S.coErrors.authFile ? ' aria-invalid="true" aria-describedby="e-authFile"' : '') + '>' + icon('upload') + '<span>' + (S.co.authFile ? esc(S.co.authFile) : t('chooseFile')) + '</span></label><p class="hint">' + t('authUploadHint') + '</p>' + (S.coErrors.authFile ? '<p class="err" id="e-authFile">' + icon('alert') + t(S.coErrors.authFile) + '</p>' : '') + '</div>' +
       '</div>' + checkbox('docsOk', t('docsConsent'))) : '';
     const payment = step(t('stepPayment'), (hasShip ? '<div class="rcards">' +
       radioCard('pay', 'card', t('payCard'), t('payCardD'), 'card') +
@@ -478,15 +485,15 @@
   function validateCheckout() {
     const T = cartTotals(S.co.ship);
     const e = {};
-    const req = (k) => { if (!String(S.co[k] || '').trim()) e[k] = t('required'); };
+    const req = (k) => { if (!String(S.co[k] || '').trim()) e[k] = 'required'; };
     ['first', 'last', 'email', 'phone'].forEach(req);
-    if (S.co.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(S.co.email)) e.email = t('invalidEmail');
-    if (S.co.phone && String(S.co.phone).replace(/[^\d]/g, '').length < 9) e.phone = t('invalidPhone');
+    if (S.co.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(S.co.email).trim())) e.email = 'invalidEmail';
+    if (S.co.phone && String(S.co.phone).replace(/[^\d]/g, '').length < 9) e.phone = 'invalidPhone';
     if (S.co.company) { req('companyName'); req('cui'); }
     if (T.ship.length && S.co.ship === 'courier') ['county', 'city', 'street'].forEach(req);
-    if (T.res.length) { req('permit'); req('permitExp'); if (!S.co.docsOk) e.docsOk = t('mustAccept'); if (T.res.some((l) => l.p.cat === 'arme' || l.p.cat === 'aer') && !S.co.authFile) e.authFile = t('required'); }
-    if (T.lines.some((l) => modeOf(l.p) === 'age18') && !S.co.age) e.age = t('mustAccept');
-    if (!S.co.terms) e.terms = t('mustAccept');
+    if (T.res.length) { req('permit'); req('permitExp'); if (!S.co.docsOk) e.docsOk = 'mustAccept'; if (T.res.some((l) => l.p.cat === 'arme' || l.p.cat === 'aer') && !S.co.authFile) e.authFile = 'required'; }
+    if (T.lines.some((l) => modeOf(l.p) === 'age18') && !S.co.age) e.age = 'mustAccept';
+    if (!S.co.terms) e.terms = 'mustAccept';
     return e;
   }
 
@@ -500,10 +507,10 @@
     }
     const T = cartTotals(S.co.ship);
     const id = 'BA-' + (Math.max(10421, ...S.orders.map((o) => parseInt(o.id.slice(3), 10) || 0)) + 1);
-    const now = new Date();
-    const date = now.toISOString().slice(0, 10) + ' ' + now.toTimeString().slice(0, 5);
-    const name = S.co.first + ' ' + (S.co.last || '').charAt(0) + '.';
-    const city = S.co.ship === 'courier' ? S.co.city : STORE.city;
+    const now = new Date(); const p2 = (n) => String(n).padStart(2, '0');
+    const date = now.getFullYear() + '-' + p2(now.getMonth() + 1) + '-' + p2(now.getDate()) + ' ' + p2(now.getHours()) + ':' + p2(now.getMinutes());
+    const name = S.co.first.trim() + ' ' + (S.co.last || '').trim().charAt(0) + '.';
+    const city = T.ship.length && S.co.ship === 'courier' ? S.co.city : STORE.city;
     if (T.ship.length) S.orders.unshift({ id: id + (T.res.length ? '-L' : ''), date, name, city, status: 'new', type: 'ship', total: T.payNow, items: T.ship.map((l) => [l.p.id, l.qty]), courier: S.co.ship === 'locker' ? 'Sameday easybox' : S.co.ship === 'pickup' ? (L() === 'ro' ? 'Ridicare magazin' : 'Store pickup') : 'Fan Courier', pay: S.co.pay, mine: true });
     if (T.res.length) S.orders.unshift({ id: id + (T.ship.length ? '-R' : ''), date, name, city, status: 'docs', type: 'reserve', total: T.resSub, items: T.res.map((l) => [l.p.id, l.qty]), permit: S.co.permit, docs: S.co.authFile ? [S.co.authFile] : [], mine: true });
     // decrement stock locally so the owner dashboard reflects it
@@ -513,6 +520,7 @@
     S.lastOrder = { id, first: S.co.first, email: S.co.email, phone: S.co.phone, ship: T.ship.length > 0, res: T.res.length > 0 };
     store.set('lastOrder', S.lastOrder);
     S.cart = []; saveCart(); S.coErrors = {};
+    ['terms', 'age', 'docsOk', 'authFile', 'permit', 'permitExp'].forEach((k) => { delete S.co[k]; });
     location.hash = '#done';
   }
 
@@ -530,7 +538,8 @@
   function viewInfo(key) {
     const C = window.BA_INFO || {};
     const page = C[key];
-    const body = page ? page[L()] || page.ro : '';
+    if (!page) return '<div class="wrap page empty"><h1>404</h1><p><a href="#home">' + t('backToShop') + '</a></p></div>';
+    const body = page[L()] || page.ro;
     return '<div class="wrap page info"><nav class="crumbs"><a href="#home">' + t('home') + '</a>' + icon('right') + '<span>' + t('info_' + key + '_t') + '</span></nav>' +
       '<article class="prose"><h1>' + t('info_' + key + '_t') + '</h1>' + (key !== 'contact' ? '<p class="draft">' + icon('edit') + t('draftNote') + '</p>' : '') + body +
       (key === 'retragere' ? '<form class="withdraw" data-form="withdraw" novalidate><div class="form-grid"><div class="field"><label for="w-order">' + (L() === 'ro' ? 'Număr comandă' : 'Order number') + '</label><input id="w-order" required placeholder="BA-10421"></div><div class="field"><label for="w-email">' + t('emailL') + '</label><input id="w-email" type="email" required autocomplete="email"></div></div><button class="btn btn-primary">' + (L() === 'ro' ? 'Mă retrag din contract' : 'Withdraw from the contract') + '</button></form>' : '') +
@@ -564,16 +573,33 @@
     else if (r.startsWith('info-')) main = viewInfo(r.slice(5));
     else main = viewHome();
     const app = $('#app');
+    const sameRoute = lastRoute === r;
+    const focusKey = sameRoute ? focusSelector(document.activeElement) : null;
+    const oldToast = $('.toast'); const toastHTML = oldToast && !oldToast.hidden ? oldToast.innerHTML : '';
     app.className = isAdmin ? 'is-admin' : '';
     app.innerHTML = (isAdmin ? '' : header()) + '<main id="main">' + main + '</main>' + (isAdmin ? '' : footer()) +
       '<div id="cart-root"' + (S.cartOpen ? '' : ' hidden') + '>' + (S.cartOpen ? cartDrawer() : '') + '</div>' +
       '<div id="menu-root"' + (S.menuOpen ? '' : ' hidden') + '>' + (S.menuOpen ? mobileMenu() : '') + '</div>' +
-      paletteSwitcher() + (isAdmin ? '' : cookieBanner()) + '<div class="toast" role="status" aria-live="polite" hidden></div>';
+      paletteSwitcher() + (isAdmin ? '' : cookieBanner()) + '<div class="toast" role="status" aria-live="polite"' + (toastHTML ? '>' + toastHTML : ' hidden>') + '</div>';
     document.title = titleFor(r);
     updateCartCount();
     mountHero();
-    if (lastRoute !== r) { window.scrollTo(0, 0); lastRoute = r; }
+    if (!sameRoute) { jumpTo(0); lastRoute = r; }
+    else if (focusKey) { const el = $(focusKey); if (el) el.focus({ preventScroll: true }); }
     if (isAdmin && window.BA_ADMIN && window.BA_ADMIN.after) window.BA_ADMIN.after(r);
+  }
+  // instant scroll (html has scroll-behavior:smooth, which would animate every route change)
+  function jumpTo(y) { const h = document.documentElement; h.style.scrollBehavior = 'auto'; window.scrollTo(0, y); h.style.scrollBehavior = ''; }
+  // a selector that finds "the same" control after a re-render, so keyboard users keep their place
+  function focusSelector(el) {
+    if (!el || el === document.body || !el.closest || !el.closest('#app')) return null;
+    if (el.id) return '#' + CSS.escape(el.id);
+    const keys = ['action', 'id', 'k', 'd', 'i', 'v', 'f', 'to', 'pal', 'coRadio', 'coCheck', 'admOnline', 'spec', 'part', 'facet'];
+    const attrs = keys.filter((k) => el.dataset[k] != null).map((k) => '[data-' + k.replace(/[A-Z]/g, (c) => '-' + c.toLowerCase()) + '="' + CSS.escape(el.dataset[k]) + '"]');
+    if (el.name && el.type === 'radio') attrs.push('[name="' + CSS.escape(el.name) + '"][value="' + CSS.escape(el.value) + '"]');
+    if (!attrs.length) return null;
+    const scope = el.closest('.drawer') ? '.drawer ' : el.closest('.sticky-buy') ? '.sticky-buy ' : el.closest('.buy-row') ? '.buy-row ' : '';
+    return scope + el.tagName.toLowerCase() + attrs.join('');
   }
   function titleFor(r) {
     if (r.startsWith('p-')) { const p = byId(r.slice(2)); if (p) return p.brand + ' ' + p.name + ' · Bistrița Alpină'; }
@@ -590,15 +616,16 @@
   }
   function rerenderDrawer() {
     const root = $('#cart-root');
+    const k = root.contains(document.activeElement) ? focusSelector(document.activeElement) : null;
     root.hidden = !S.cartOpen;
     root.innerHTML = S.cartOpen ? cartDrawer() : '';
     document.body.classList.toggle('lock', !!(S.cartOpen || S.menuOpen));
-    if (S.cartOpen) { const b = $('.drawer .icon-btn', root); if (b) b.focus(); }
+    if (S.cartOpen) { const el = (k && $(k)) || $('.drawer .icon-btn', root); if (el) el.focus(); }
   }
   function toast(msg) {
     const el = $('.toast'); if (!el) return;
     el.innerHTML = icon('check') + msg; el.hidden = false;
-    clearTimeout(toast._t); toast._t = setTimeout(() => { el.hidden = true; }, 2600);
+    clearTimeout(toast._t); toast._t = setTimeout(() => { const t2 = $('.toast'); if (t2) t2.hidden = true; }, 2600);
   }
 
   // ——— search suggestions
@@ -606,9 +633,8 @@
     const box = $('.suggest'); if (!box) return;
     const nq = norm(q).trim();
     if (nq.length < 2) { box.hidden = true; return; }
-    const words = nq.split(/\s+/);
-    const hits = products().filter((p) => { const hay = norm(p.brand + ' ' + p.name + ' ' + catName(p.cat) + ' ' + Object.values(p.attrs || {}).join(' ')); return words.every((w) => hay.includes(w)); }).slice(0, 6);
-    const cats = D.CATEGORIES.filter((c) => norm(c.name[L()]).includes(nq)).slice(0, 2);
+    const hits = products().filter((p) => matches(haystack(p), nq)).slice(0, 6);
+    const cats = D.CATEGORIES.filter((c) => matches(norm(c.name.ro + ' ' + c.name.en), nq)).slice(0, 2);
     if (!hits.length && !cats.length) { box.innerHTML = '<p class="sg-empty">' + t('noResults') + '</p>'; box.hidden = false; return; }
     box.innerHTML = cats.map((c) => '<a class="sg-cat" href="#c-' + c.id + '">' + icon('list') + esc(c.name[L()]) + '</a>').join('') +
       hits.map((p) => '<a class="sg-item" href="#p-' + p.id + '"><span class="sg-img">' + pimg(p) + '</span><span><small>' + esc(p.brand) + '</small>' + esc(p.name) + '</span><b>' + fmt(p.price) + '</b></a>').join('');
@@ -618,25 +644,23 @@
   // ——— events
   document.addEventListener('click', (ev) => {
     const a = ev.target.closest('[data-action]');
-    if (!a) {
-      if (!ev.target.closest('.search')) { const b = $('.suggest'); if (b) b.hidden = true; }
-      if (!ev.target.closest('#palette-dock')) { const pp = $('.palette-panel'); if (pp && !pp.hidden) { pp.hidden = true; $('.palette-toggle').setAttribute('aria-expanded', 'false'); } }
-      return;
-    }
+    if (!ev.target.closest('.search')) { const b = $('.suggest'); if (b) b.hidden = true; }
+    if (!ev.target.closest('#palette-dock')) closePalette();
+    if (!a) return;
     const act = a.dataset.action;
     const H = {
-      'lang': () => { S.lang = S.lang === 'ro' ? 'en' : 'ro'; store.set('lang', S.lang); S.menuOpen = false; render(); },
-      'palette': () => { S.palette = a.dataset.pal; store.set('palette', S.palette); document.documentElement.setAttribute('data-palette', S.palette); $$('.pal-opt').forEach((b) => b.classList.toggle('on', b.dataset.pal === S.palette)); },
+      'lang': () => { S.lang = S.lang === 'ro' ? 'en' : 'ro'; store.set('lang', S.lang); S.menuOpen = false; document.body.classList.toggle('lock', !!S.cartOpen); render(); },
+      'palette': () => { S.palette = a.dataset.pal; store.set('palette', S.palette); document.documentElement.setAttribute('data-palette', S.palette); $$('.pal-opt').forEach((b) => { b.classList.toggle('on', b.dataset.pal === S.palette); b.setAttribute('aria-pressed', String(b.dataset.pal === S.palette)); }); },
       'toggle-palette': () => { const pp = $('.palette-panel'); pp.hidden = !pp.hidden; a.setAttribute('aria-expanded', String(!pp.hidden)); },
       'hide-notice': () => { S.notice = false; store.set('notice', false); const d = $('.demo-bar'); if (d) d.remove(); },
       'cookie': () => { S.cookie = a.dataset.v; store.set('cookie', S.cookie); const c = $('.cookie'); if (c) c.remove(); },
       'open-cart': () => { S.cartOpen = true; rerenderDrawer(); },
-      'close-cart': () => { S.cartOpen = false; rerenderDrawer(); },
-      'close-cart-nav': () => { S.cartOpen = false; document.body.classList.remove('lock'); setTimeout(() => { if (route() === 'checkout') render(); }, 0); },
-      'open-menu': () => { S.menuOpen = true; const r = $('#menu-root'); r.hidden = false; r.innerHTML = mobileMenu(); document.body.classList.add('lock'); },
-      'close-menu': () => { S.menuOpen = false; const r = $('#menu-root'); r.hidden = true; r.innerHTML = ''; document.body.classList.remove('lock'); },
-      'open-filters': () => { S.mobileFilters = true; $('.filters').classList.add('open'); document.body.classList.add('lock'); },
-      'close-filters': () => { S.mobileFilters = false; $('.filters').classList.remove('open'); document.body.classList.remove('lock'); },
+      'close-cart': () => closeCart(true),
+      'close-cart-nav': () => { S.cartOpen = false; document.body.classList.remove('lock'); setTimeout(() => { rerenderDrawer(); if (route() === 'checkout') render(); }, 0); },
+      'open-menu': () => { S.menuOpen = true; const r = $('#menu-root'); r.hidden = false; r.innerHTML = mobileMenu(); document.body.classList.add('lock'); const b = $('.drawer .icon-btn', r); if (b) b.focus(); },
+      'close-menu': () => closeMenu(!a.closest('a')),
+      'open-filters': () => { S.mobileFilters = true; $('.filters').classList.add('open'); document.body.classList.add('lock'); const b = $('.filters-head .icon-btn'); if (b) b.focus(); },
+      'close-filters': () => closeFilters(true),
       'sub': () => { S.pendingSub = a.dataset.sub; S.filterCat = null; if (location.hash === '#c-' + a.dataset.cat) { ev.preventDefault(); render(); } },
       'all': () => { S.query = ''; S.filterCat = null; },
       'facet-pill': () => { toggleFacet(a.dataset.f, a.dataset.v); render(); },
@@ -663,6 +687,10 @@
     if (H[act]) H[act]();
     else if (window.BA_ADMIN && window.BA_ADMIN.onAction) window.BA_ADMIN.onAction(act, a, ev);
   });
+  function closePalette() { const pp = $('.palette-panel'); if (pp && !pp.hidden) { pp.hidden = true; $('.palette-toggle').setAttribute('aria-expanded', 'false'); } }
+  function closeCart(refocus) { if (!S.cartOpen) return; S.cartOpen = false; rerenderDrawer(); if (refocus) { const b = $('.cart-btn'); if (b) b.focus({ preventScroll: true }); } }
+  function closeMenu(refocus) { if (!S.menuOpen) return; S.menuOpen = false; const r = $('#menu-root'); r.hidden = true; r.innerHTML = ''; document.body.classList.remove('lock'); if (refocus) { const b = $('[data-action=open-menu]'); if (b) b.focus({ preventScroll: true }); } }
+  function closeFilters(refocus) { if (!S.mobileFilters) return; S.mobileFilters = false; const fl = $('.filters'); if (fl) fl.classList.remove('open'); document.body.classList.remove('lock'); if (refocus) { const b = $('[data-action=open-filters]'); if (b) b.focus({ preventScroll: true }); } }
   function selectText(el) { if (!el) return; const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
   function toggleFacet(f, v) {
     const set = S.filters[f] || (S.filters[f] = new Set());
@@ -678,20 +706,29 @@
     else if (el.dataset.coRadio) { S.co[el.dataset.coRadio] = el.value; delete S.coErrors[el.dataset.coRadio]; render(); }
     else if (el.dataset.coCheck) { S.co[el.dataset.coCheck] = el.checked; delete S.coErrors[el.dataset.coCheck]; if (el.dataset.coCheck === 'company' || S.coErrors && Object.keys(S.coErrors).length) render(); }
     else if (el.dataset.coFile) { S.co[el.dataset.coFile] = el.files[0] ? el.files[0].name : ''; delete S.coErrors[el.dataset.coFile]; render(); }
-    else if (el.dataset.co && el.tagName === 'SELECT') { S.co[el.dataset.co] = el.value; }
+    else if (el.dataset.co && el.tagName === 'SELECT') { S.co[el.dataset.co] = el.value; if (S.coErrors[el.dataset.co]) { delete S.coErrors[el.dataset.co]; render(); } }
     else if (window.BA_ADMIN && window.BA_ADMIN.onChange) window.BA_ADMIN.onChange(el, ev);
   });
   function refreshListing() {
-    // keep the mobile filter sheet open and preserve scroll while filtering
-    const y = window.scrollY; const fy = ($('.filters-body') || {}).scrollTop || 0;
-    render(); window.scrollTo(0, y); const fb = $('.filters-body'); if (fb) fb.scrollTop = fy;
-    if (S.mobileFilters) { $('.filters').classList.add('open'); document.body.classList.add('lock'); }
+    // Swap only the results, pills and sheet footer: the filter controls stay in place, so focus,
+    // a click that is still in progress, the sheet's scroll and the page scroll are all preserved.
+    const r = route();
+    if (!(r.startsWith('c-') || r === 'search') || !$('.list-main')) return render();
+    const fk = focusSelector(document.activeElement);
+    const tpl = document.createElement('div');
+    tpl.innerHTML = viewListing(r === 'search' ? null : r.slice(2));
+    ['.list-main', '.sub-pills', '.filters-foot'].forEach((sel) => { const a = $(sel), b = $(sel, tpl); if (a && b) a.replaceWith(b); });
+    if (fk && !document.activeElement.closest('#app')) { const el = $(fk); if (el) el.focus({ preventScroll: true }); }
+    const pmin = $('#pmin'), pmax = $('#pmax');
+    if (pmin && document.activeElement !== pmin) pmin.value = S.price.min;
+    if (pmax && document.activeElement !== pmax) pmax.value = S.price.max;
   }
 
   document.addEventListener('input', (ev) => {
     const el = ev.target;
     if (el.id === 'q') suggest(el.value);
-    else if (el.dataset.co) { S.co[el.dataset.co] = el.value; if (S.coErrors[el.dataset.co]) { delete S.coErrors[el.dataset.co]; el.removeAttribute('aria-invalid'); const f = el.closest('.field'); if (f) { f.classList.remove('has-err'); const e = f.querySelector('.err'); if (e) e.remove(); } } }
+    else if (el.id === 'pdp-qty') { const p = byId(S.pdpFor); const n = parseInt(el.value, 10); if (p && n > 0) S.pdpQty = Math.min(p.stock, n); }
+    else if (el.dataset.co) { S.co[el.dataset.co] = el.value; if (S.coErrors[el.dataset.co]) { delete S.coErrors[el.dataset.co]; el.removeAttribute('aria-invalid'); el.removeAttribute('aria-describedby'); const f = el.closest('.field'); if (f) { f.classList.remove('has-err'); const e = f.querySelector('.err'); if (e) e.remove(); } if (!Object.keys(S.coErrors).length) { const sm = $('.co-sum-in > .err'); if (sm) sm.remove(); } } }
     else if (window.BA_ADMIN && window.BA_ADMIN.onInput) window.BA_ADMIN.onInput(el, ev);
   });
 
@@ -711,10 +748,9 @@
 
   document.addEventListener('keydown', (ev) => {
     if (ev.key === 'Escape') {
-      if (S.cartOpen) { S.cartOpen = false; rerenderDrawer(); }
-      if (S.menuOpen) { S.menuOpen = false; const r = $('#menu-root'); r.hidden = true; r.innerHTML = ''; document.body.classList.remove('lock'); }
-      if (S.mobileFilters) { S.mobileFilters = false; const fl = $('.filters'); if (fl) fl.classList.remove('open'); document.body.classList.remove('lock'); }
+      closeCart(true); closeMenu(true); closeFilters(true);
       const b = $('.suggest'); if (b) b.hidden = true;
+      closePalette();
     }
   });
 
