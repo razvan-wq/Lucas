@@ -4,6 +4,7 @@ Bilingual (RO/EN) prototype for a licensed hunting & outdoor shop in Bistrița: 
 
 - `dist/bistrita-alpina-prototip.html` — the whole prototype in one file; open it in a browser.
 - `site/` — source (no build step, no dependencies). Serve it with `python3 -m http.server` from `site/` and open `index.html`.
+- `HANDOVER.md` — full project handover: what it does, code, infrastructure, legal model, next steps.
 - `docs/plan.html` — platform recommendation, legal model, payments, AI pipeline, palettes, launch checklist.
 - `tools/bundle.py` — rebuilds the single-file version after editing `site/`.
 - `tools/smoke.js` — Playwright smoke test.

@@ -1,5 +1,7 @@
 # Bistrița Alpină — online shop
 
+Full handover (website, infrastructure, legal model, next steps): `HANDOVER.md`.
+
 Prototype of a bilingual (Romanian first, English) online shop for a licensed hunting & outdoor store in Bistrița, Romania. The target production platform is Shopify (see `docs/plan.html` for the decision, its conditions and the Gomag fallback); this repo is the design and behaviour spec that a Shopify theme will be built from.
 
 ## Layout
